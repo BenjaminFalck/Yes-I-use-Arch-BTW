@@ -8,8 +8,7 @@ SCREEN_H=720
 PLAYER_X=3
 PLAYER_Y=3
 PLAYER_A=0
-Pi=3.141592
-FOV=Pi/3
+FOV=math.pi/3
 RAY_WIDTH=2
 
 #--------------------Level mappi--------------------
@@ -74,18 +73,18 @@ def DrawScreen():
 #GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem)
 #--------------------Key bindaukset --------------------------
 def keypress(event):
-	global PLAYER_X,PLAYER_Y
+	global PLAYER_X,PLAYER_Y,PLAYER_A
 	if event.keysym.lower()=="w":
-		PLAYER_Y+=1
-		#print(PLAYER_X)
+		PLAYER_X+=math.sin(PLAYER_A)*0.05
+		PLAYER_Y+=math.cos(PLAYER_A)*0.05
 	elif event.keysym.lower()=="s":
-		PLAYER_Y-=1
-		#print(PLAYER_X)
+		PLAYER_X-=math.sin(PLAYER_A)*0.05
+		PLAYER_Y-=math.cos(PLAYER_A)*0.05
 	elif event.keysym.lower()=="d":
-		PLAYER_X+=1
+		PLAYER_A+=0.03
 		#print(PLAYER_Y)
 	elif event.keysym.lower()=="a":
-		PLAYER_X-=1
+		PLAYER_A-=0.03
 		#print(PLAYER_Y)
 	print(f"{PLAYER_X}, {PLAYER_Y}")
 root.bind("<KeyPress>",keypress)
