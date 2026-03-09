@@ -68,9 +68,11 @@ def DrawScreen():
 		elif WALL_H>SCREEN_H*0.25:COLOUR_WALL="#23081e"
 		else:COLOUR_WALL="#190514"
 
-		GameScreen.create_rectangle(X,WALL_TOP,X+RAY_WIDTH,WALL_BOTTOM,fill=COLOUR_WALL,outline=COLOUR_WALL)
-	root.after(30,DrawScreen)
+		GameScreen.create_rectangle(X,WALL_TOP,X+RAY_WIDTH,WALL_BOTTOM,fill=COLOUR_WALL,outline=COLOUR_WALL) #Seinän väritys
+		GameScreen.create_rectangle(X,WALL_TOP-((SCREEN_H//2)-(WALL_H//2)),X+RAY_WIDTH,WALL_TOP,fill="#140410",outline="#140410") #Katon väritys
+		GameScreen.create_rectangle(X,WALL_BOTTOM,X+RAY_WIDTH,WALL_BOTTOM+((SCREEN_H//2)-(WALL_H//2)),fill="#3a1b07",outline="#3a1b07") #Lattian väritys #47270e
 
+	root.after(30,DrawScreen)
 #------------------------------------------------------------
 #mlem=tk.PhotoImage(file="cat.png")
 #GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem)
