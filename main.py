@@ -4,7 +4,8 @@ import tkinter as tk
 SCREEN_W=1280
 SCREEN_H=720
 
-
+PLAYER_X=1
+PLAYER_Y=0
 #--------------------Tkinter Setup--------------------
 #Luodaan root ikkuna
 root=tk.Tk()
@@ -19,7 +20,22 @@ GameScreen.pack()
 mlem=tk.PhotoImage(file="cat.png")
 GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem)
 #--------------------Key bindaukset --------------------------
-
+def keypress(event):
+	global PLAYER_X,PLAYER_Y
+	if event.keysym.lower()=="w":
+		PLAYER_X+=1
+		#print(PLAYER_X)
+	elif event.keysym.lower()=="s":
+		PLAYER_X-=1
+		#print(PLAYER_X)
+	elif event.keysym.lower()=="d":
+		PLAYER_Y+=1
+		#print(PLAYER_Y)
+	elif event.keysym.lower()=="a":
+		PLAYER_Y-=1
+		#print(PLAYER_Y)
+	print(f"{PLAYER_X}, {PLAYER_Y}")
+root.bind("<KeyPress>",keypress)
 
 #----------------------GAME LOOP STUFFS-------------------------
 #print(SCREEN_W)
