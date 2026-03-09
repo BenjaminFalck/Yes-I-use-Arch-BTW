@@ -48,7 +48,7 @@ def CastRays():
 		while RAY_HIT_WALL==False and RAY_D<RAY_D_MAX:
 			RAY_D+=0.01 #Sharpness adjusting, put 0.05 if performance issues
 			RAY_CHECK_X=int(PLAYER_X+(RAY_X*RAY_D))
-			RAY_CHECK_Y=int(PLAYER_Y+(RAY_X*RAY_D))
+			RAY_CHECK_Y=int(PLAYER_Y+(RAY_Y*RAY_D))
 			if MAP[RAY_CHECK_X][RAY_CHECK_Y]=="#":
 				RAY_HIT_WALL=True
 		WALL_H=int(SCREEN_H/(RAY_D+0.01))
@@ -76,16 +76,16 @@ def DrawScreen():
 def keypress(event):
 	global PLAYER_X,PLAYER_Y
 	if event.keysym.lower()=="w":
-		PLAYER_X+=1
+		PLAYER_Y+=1
 		#print(PLAYER_X)
 	elif event.keysym.lower()=="s":
-		PLAYER_X-=1
+		PLAYER_Y-=1
 		#print(PLAYER_X)
 	elif event.keysym.lower()=="d":
-		PLAYER_Y+=1
+		PLAYER_X+=1
 		#print(PLAYER_Y)
 	elif event.keysym.lower()=="a":
-		PLAYER_Y-=1
+		PLAYER_X-=1
 		#print(PLAYER_Y)
 	print(f"{PLAYER_X}, {PLAYER_Y}")
 root.bind("<KeyPress>",keypress)
