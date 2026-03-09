@@ -70,7 +70,7 @@ def DrawScreen():
 
 		GameScreen.create_rectangle(X,WALL_TOP,X+RAY_WIDTH,WALL_BOTTOM,fill=COLOUR_WALL,outline=COLOUR_WALL) #Seinän väritys
 		GameScreen.create_rectangle(X,WALL_TOP-((SCREEN_H//2)-(WALL_H//2)),X+RAY_WIDTH,WALL_TOP,fill="#140410",outline="#140410") #Katon väritys
-		GameScreen.create_rectangle(X,WALL_BOTTOM,X+RAY_WIDTH,WALL_BOTTOM+((SCREEN_H//2)-(WALL_H//2)),fill="#3a1b07",outline="#3a1b07") #Lattian väritys #47270e
+		GameScreen.create_rectangle(X,WALL_BOTTOM,X+RAY_WIDTH,WALL_BOTTOM+((SCREEN_H//2)-(WALL_H//2)),fill="#1c0d03",outline="#1c0d03") #Lattian väritys #47270e
 
 	root.after(30,DrawScreen)
 #------------------------------------------------------------
@@ -91,7 +91,7 @@ def keypress(event):
 	elif event.keysym.lower()=="a":
 		PLAYER_A-=0.03
 		#print(PLAYER_Y)
-	print(f"{PLAYER_X}, {PLAYER_Y}")
+	print(f"{PLAYER_X},{PLAYER_Y}")
 root.bind("<KeyPress>",keypress)
 
 #----------------------GAME LOOP STUFFS-------------------------
