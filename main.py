@@ -5,11 +5,12 @@ import math
 SCREEN_W=1280
 SCREEN_H=720
 
-PLAYER_X=1
-PLAYER_Y=0
+PLAYER_X=3
+PLAYER_Y=3
 PLAYER_A=0
 Pi=3.141592
 FOV=Pi/3
+RAY_WIDTH=2
 
 #--------------------Level mappi--------------------
 MAP_W=8
@@ -33,22 +34,42 @@ GameScreen=tk.Canvas(root,width=SCREEN_W,height=SCREEN_H,bg="#000000")
 GameScreen.pack()
 
 #-------------------Raycasteröinti-------------------
-#def raycast():
+def CastRays():
+	WALL_HEIGHTS_LISTED=[]
+	RAY_COUNT=SCREEN_W//RAY_WIDTH
+	for col in range(SCREEN_W//RAY_WIDTH):
+		RAY_A=(PLAYER_A-FOV/2)+(col/RAY_COUNT)*FOV
+		RAY_D=0
+		RAY_D_MAX=7
+		RAY_HIT_WALL=False
+		RAY_X=math.sin(RAY_A)
+		RAY_Y=math.cos(RAY_A)
+
+		while RAY_HIT_WALL==False and RAY_D<RAY_D_MAX:
+			RAY_D+=0.01 #Sharpness adjusting, put 0.05 if performance issues
+			RAY_CHECK_X=int(PLAYER_X+(RAY_X*RAY_D))
+			RAY_CHECK_Y=int(PLAYER_Y+(RAY_X*RAY_D))
+			if MAP[RAY_CHECK_X][RAY_CHECK_Y]=="#":
+				RAY_HIT_WALL=True
+		WALL_H=int(SCREEN_H/(RAY_D+0.01))
+		WALL_HEIGHTS_LISTED.append(WALL_H)
+	return WALL_HEIGHTS_LISTED
+
 #--------------------Renderöys-------------------------
+def DrawScreen():
+	GameScreen.delete("all")
+	WALL_HEIGHTS_LISTED=CastRays()
+	for WALL_H_INDEX, WALL_H in enumerate(WALL_HEIGHTS_LISTED): #numeroittaa list itemin indexin muuttujaan WALL_H_INDEX
+		X=WALL_H_INDEX*RAY_WIDTH
+		WALL_TOP=(SCREEN_H-WALL_H)//2
+		WALL_BOTTOM=(SCREEN_H-WALL_TOP)
 
+		COLOUR_WALL="#40113b"
 
+		GameScreen.create_rectangle(X,WALL_TOP,X+RAY_WIDTH,WALL_BOTTOM,fill=COLOUR_WALL,outline=COLOUR_WALL)
+	root.after(30,DrawScreen)
 
-
-
-
-
-
-
-
-
-
-
-
+#------------------------------------------------------------
 #mlem=tk.PhotoImage(file="cat.png")
 #GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem)
 #--------------------Key bindaukset --------------------------
@@ -71,4 +92,5 @@ root.bind("<KeyPress>",keypress)
 
 #----------------------GAME LOOP STUFFS-------------------------
 #print(SCREEN_W)
+DrawScreen()
 root.mainloop()
