@@ -41,7 +41,8 @@ root.geometry(f"{SCREEN_W}x{SCREEN_H}")
 GameScreen=tk.Canvas(root,width=SCREEN_W,height=SCREEN_H,bg="#000000")
 GameScreen.pack()
 
-mlem_img=tk.PhotoImage(file="Storage_Room.png")
+mlem_img=tk.PhotoImage(file="cat.png")
+storage_room_img=tk.PhotoImage(file="Storage_Room.png")
 #-------------------Raycasteröinti-------------------
 def CastRays():
 	WALL_HEIGHTS_LISTED=[]
@@ -85,9 +86,10 @@ def DrawScreen():
 		if MlemToggle:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
 
-		if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7:
+		if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3:
 			Storage_Room_Active=True
-			print(Storage_Room_Active)
+			print("Player in: Storage Room")
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=storage_room_img)
 	root.after(30,DrawScreen)
 
 #--------------------Key bindaukset --------------------------
