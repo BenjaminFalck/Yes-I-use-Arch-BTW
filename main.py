@@ -11,15 +11,17 @@ PLAYER_A=0
 FOV=math.pi/3
 RAY_WIDTH=2
 
+MlemToggle=False
+
 #--------------------Level mappi--------------------
 MAP_W=8
 MAP_H=6
 MAP=[
 	"########",
+	"#.#.##.#",
 	"#......#",
-	"#......#",
-	"#......#",
-	"#......#",
+	"###.#..#",
+	"#...#..#",
 	"########"]
 
 #--------------------Tkinter Setup--------------------
@@ -32,6 +34,7 @@ root.geometry(f"{SCREEN_W}x{SCREEN_H}")
 GameScreen=tk.Canvas(root,width=SCREEN_W,height=SCREEN_H,bg="#000000")
 GameScreen.pack()
 
+mlem_img=tk.PhotoImage(file="cat.png")
 #-------------------Raycasteröinti-------------------
 def CastRays():
 	WALL_HEIGHTS_LISTED=[]
@@ -72,23 +75,27 @@ def DrawScreen():
 		GameScreen.create_rectangle(X,WALL_TOP-((SCREEN_H//2)-(WALL_H//2)),X+RAY_WIDTH,WALL_TOP,fill="#140410",outline="#140410") #Katon väritys
 		GameScreen.create_rectangle(X,WALL_BOTTOM,X+RAY_WIDTH,WALL_BOTTOM+((SCREEN_H//2)-(WALL_H//2)),fill="#1c0d03",outline="#1c0d03") #Lattian väritys #47270e
 
+		if MlemToggle:
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
+
 	root.after(30,DrawScreen)
-#------------------------------------------------------------
-#mlem=tk.PhotoImage(file="cat.png")
-#GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem)
+
 #--------------------Key bindaukset --------------------------
 def keypress(event):
-	global PLAYER_X,PLAYER_Y,PLAYER_A
-	if event.keysym.lower()=="w":
+	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle #mlem_img
+	if event.keysym.lower()=="m":
+		if MlemToggle==True:MlemToggle=False
+		else:MlemToggle=True
+	if event.keysym.lower()=="w" or event.keysym.lower()=="up":
 		PLAYER_X+=math.sin(PLAYER_A)*0.05
 		PLAYER_Y+=math.cos(PLAYER_A)*0.05
-	elif event.keysym.lower()=="s":
+	elif event.keysym.lower()=="s" or event.keysym.lower()=="down":
 		PLAYER_X-=math.sin(PLAYER_A)*0.05
 		PLAYER_Y-=math.cos(PLAYER_A)*0.05
-	elif event.keysym.lower()=="d":
+	elif event.keysym.lower()=="d" or event.keysym.lower()=="right":
 		PLAYER_A+=0.03
 		#print(PLAYER_Y)
-	elif event.keysym.lower()=="a":
+	elif event.keysym.lower()=="a" or event.keysym.lower()=="left":
 		PLAYER_A-=0.03
 		#print(PLAYER_Y)
 	print(f"{PLAYER_X},{PLAYER_Y}")
