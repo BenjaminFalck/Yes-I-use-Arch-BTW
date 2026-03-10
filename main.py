@@ -11,6 +11,8 @@ PLAYER_A=0
 FOV=math.pi/3
 RAY_WIDTH=2
 
+GRAPHIC_ADJUST=0.01
+
 MlemToggle=False
 AllowMovement=True
 
@@ -49,7 +51,7 @@ def CastRays():
 		RAY_Y=math.cos(RAY_A)
 
 		while RAY_HIT_WALL==False and RAY_D<RAY_D_MAX:
-			RAY_D+=0.01 #Sharpness adjusting, put 0.05 if performance issues
+			RAY_D+=GRAPHIC_ADJUST #Sharpness adjusting, put 0.05 if performance issues
 			RAY_CHECK_X=int(PLAYER_X+(RAY_X*RAY_D))
 			RAY_CHECK_Y=int(PLAYER_Y+(RAY_Y*RAY_D))
 			if MAP[RAY_CHECK_X][RAY_CHECK_Y]=="#":
@@ -83,7 +85,8 @@ def DrawScreen():
 
 #--------------------Key bindaukset --------------------------
 def keypress(event):
-	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement
+	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST
+	#-----------------MENU AKTIVOINNIT----------------------
 	if event.keysym.lower()=="m":
 		if MlemToggle==True:
 			MlemToggle=False
@@ -91,6 +94,10 @@ def keypress(event):
 		else:
 			MlemToggle=True
 			AllowMovement=False
+	#------------------GRAFIIKAN SÄÄTÖ------------------------
+	if event.keysym.lower()=="o" and GRAPHIC_ADJUST<0.1:GRAPHIC_ADJUST+=0.01
+	if event.keysym.lower()=="p" and GRAPHIC_ADJUST>0.01:GRAPHIC_ADJUST-=0.01
+	#------------------UKKO LIIKKUU---------------------------
 	if event.keysym.lower()=="w" or event.keysym.lower()=="up":
 		if AllowMovement==True:
 			PLAYER_X+=math.sin(PLAYER_A)*0.05
@@ -105,6 +112,7 @@ def keypress(event):
 	elif event.keysym.lower()=="a" or event.keysym.lower()=="left":
 		if AllowMovement==True:
 			PLAYER_A-=0.03
+	#-----------------------------------------------------------
 	print(f"{PLAYER_X},{PLAYER_Y}")
 root.bind("<KeyPress>",keypress)
 
