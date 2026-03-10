@@ -67,6 +67,7 @@ def CastRays():
 
 #--------------------Renderöys-------------------------
 def DrawScreen():
+	global StorageRoomActive
 	GameScreen.delete("all")
 	WALL_HEIGHTS_LISTED=CastRays()
 	for WALL_H_INDEX, WALL_H in enumerate(WALL_HEIGHTS_LISTED): #numeroittaa list itemin indexin muuttujaan WALL_H_INDEX
@@ -86,15 +87,13 @@ def DrawScreen():
 		if MlemToggle:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
 
-		if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3:
-			Storage_Room_Active=True
-			print("Player in: Storage Room")
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=storage_room_img)
+		if StorageRoomActive:
+		    GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=storage_room_img)
 	root.after(30,DrawScreen)
 
 #--------------------Key bindaukset --------------------------
 def keypress(event):
-	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST
+	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,StorageRoomActive
 	#-----------------MENU AKTIVOINNIT----------------------
 	if event.keysym.lower()=="m":
 		if MlemToggle==True:
@@ -106,6 +105,18 @@ def keypress(event):
 	#------------------GRAFIIKAN SÄÄTÖ------------------------
 	if event.keysym.lower()=="o" and GRAPHIC_ADJUST<0.1:GRAPHIC_ADJUST+=0.01
 	if event.keysym.lower()=="p" and GRAPHIC_ADJUST>0.01:GRAPHIC_ADJUST-=0.01
+	#------------------ROOM CHECK STUFFS----------------------
+	if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3:
+		StorageRoomActive=True
+		AllowMovement=False
+		#print("Player in: Storage Room")
+		if event.keysym.lower()=="escape":
+			print("MLEM")
+			PLAYER_X=4.5
+			PLAYER_Y=7.5
+			PLAYER_A=0
+			AllowMovement=True
+			StorageRoomActive=False
 	#------------------UKKO LIIKKUU---------------------------
 	if event.keysym.lower()=="w" or event.keysym.lower()=="up":
 		if AllowMovement==True:
