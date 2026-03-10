@@ -6,7 +6,7 @@ SCREEN_W=1280
 SCREEN_H=720
 
 PLAYER_X=2.5
-PLAYER_Y=1.5
+PLAYER_Y=2.5
 PLAYER_A=0
 FOV=math.pi/3
 RAY_WIDTH=2
@@ -15,8 +15,9 @@ GRAPHIC_ADJUST=0.01
 
 MlemToggle=False
 AllowMovement=True
+BedroomActive=False
 StorageRoomActive=False
-
+BathroomActive=False
 
 #--------------------Level mappi--------------------
 MAP_W=10
@@ -41,8 +42,12 @@ root.geometry(f"{SCREEN_W}x{SCREEN_H}")
 GameScreen=tk.Canvas(root,width=SCREEN_W,height=SCREEN_H,bg="#000000")
 GameScreen.pack()
 
-mlem_img=tk.PhotoImage(file="cat.png")
-storage_room_img=tk.PhotoImage(file="Storage_Room.png")
+#-----------------KUVAT JA TEKSTÖÖRIT--------------
+mlem_img=tk.PhotoImage(file="Images/cat.png")
+bedroom_img=tk.PhotoImage(file="Images/Rooms/Bedroom.png")
+storage_room_img=tk.PhotoImage(file="Images/Rooms/Storage_Room.png")
+bathroom_img=tk.PhotoImage(file="Images/Rooms/Bathroom.png")
+
 #-------------------Raycasteröinti-------------------
 def CastRays():
 	WALL_HEIGHTS_LISTED=[]
@@ -67,7 +72,6 @@ def CastRays():
 
 #--------------------Renderöys-------------------------
 def DrawScreen():
-	global StorageRoomActive
 	GameScreen.delete("all")
 	WALL_HEIGHTS_LISTED=CastRays()
 	for WALL_H_INDEX, WALL_H in enumerate(WALL_HEIGHTS_LISTED): #numeroittaa list itemin indexin muuttujaan WALL_H_INDEX
@@ -86,14 +90,17 @@ def DrawScreen():
 
 		if MlemToggle:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
-
+		if BedroomActive:
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bedroom_img)
 		if StorageRoomActive:
-		    GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=storage_room_img)
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=storage_room_img)
+		if BathroomActive:
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bathroom_img)
 	root.after(30,DrawScreen)
 
 #--------------------Key bindaukset --------------------------
 def keypress(event):
-	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,StorageRoomActive
+	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,StorageRoomActive,BedroomActive,BathroomActive
 	#-----------------MENU AKTIVOINNIT----------------------
 	if event.keysym.lower()=="m":
 		if MlemToggle==True:
@@ -106,17 +113,41 @@ def keypress(event):
 	if event.keysym.lower()=="o" and GRAPHIC_ADJUST<0.1:GRAPHIC_ADJUST+=0.01
 	if event.keysym.lower()=="p" and GRAPHIC_ADJUST>0.01:GRAPHIC_ADJUST-=0.01
 	#------------------ROOM CHECK STUFFS----------------------
-	if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3:
+	if PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=1 and PLAYER_Y<=2:
+		print("Player in: Bedroom")
+		BedroomActive=True
+		AllowMovement=False
+		if event.keysym.lower()=="escape":
+			print("Mlem")
+			PLAYER_X=2.5
+			PLAYER_Y=2.5
+			PLAYER_A=0
+			AllowMovement=True
+			BedroomActive=False
+
+	if PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=8 and PLAYER_Y<=9:
+		#print("Player in: Storage Room")
 		StorageRoomActive=True
 		AllowMovement=False
-		#print("Player in: Storage Room")
 		if event.keysym.lower()=="escape":
 			print("MLEM")
+			PLAYER_X=2.5
+			PLAYER_Y=7.99
+			PLAYER_A=math.pi
+			AllowMovement=True
+			StorageRoomActive=False
+	if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3:
+		print("Player in: Bathroom")
+		BathroomActive=True
+		AllowMovement=False
+		if event.keysym.lower()=="escape":
+			print("Mlem")
 			PLAYER_X=4.5
 			PLAYER_Y=7.5
 			PLAYER_A=0
 			AllowMovement=True
-			StorageRoomActive=False
+			BathroomActive=False
+
 	#------------------UKKO LIIKKUU---------------------------
 	if event.keysym.lower()=="w" or event.keysym.lower()=="up":
 		if AllowMovement==True:
