@@ -5,8 +5,8 @@ import math
 SCREEN_W=1280
 SCREEN_H=720
 
-PLAYER_X=3
-PLAYER_Y=3
+PLAYER_X=2.5
+PLAYER_Y=1.5
 PLAYER_A=0
 FOV=math.pi/3
 RAY_WIDTH=2
@@ -17,15 +17,17 @@ MlemToggle=False
 AllowMovement=True
 
 #--------------------Level mappi--------------------
-MAP_W=8
-MAP_H=6
+MAP_W=10
+MAP_H=8
 MAP=[
-	"########",
-	"#.#.##.#",
-	"#......#",
-	"###.#..#",
-	"#...#..#",
-	"########"]
+	"##########",
+	"###.#.####",
+	"#........#",
+	"###.#.#.##",
+	"######...#",
+	"#######..#",
+	"#######.##",
+	"##########"]
 
 #--------------------Tkinter Setup--------------------
 #Luodaan root ikkuna
