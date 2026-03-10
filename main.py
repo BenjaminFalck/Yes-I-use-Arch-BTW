@@ -12,6 +12,7 @@ FOV=math.pi/3
 RAY_WIDTH=2
 
 MlemToggle=False
+AllowMovement=True
 
 #--------------------Level mappi--------------------
 MAP_W=8
@@ -82,22 +83,28 @@ def DrawScreen():
 
 #--------------------Key bindaukset --------------------------
 def keypress(event):
-	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle #mlem_img
+	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement
 	if event.keysym.lower()=="m":
-		if MlemToggle==True:MlemToggle=False
-		else:MlemToggle=True
+		if MlemToggle==True:
+			MlemToggle=False
+			AllowMovement=True
+		else:
+			MlemToggle=True
+			AllowMovement=False
 	if event.keysym.lower()=="w" or event.keysym.lower()=="up":
-		PLAYER_X+=math.sin(PLAYER_A)*0.05
-		PLAYER_Y+=math.cos(PLAYER_A)*0.05
+		if AllowMovement==True:
+			PLAYER_X+=math.sin(PLAYER_A)*0.05
+			PLAYER_Y+=math.cos(PLAYER_A)*0.05
 	elif event.keysym.lower()=="s" or event.keysym.lower()=="down":
-		PLAYER_X-=math.sin(PLAYER_A)*0.05
-		PLAYER_Y-=math.cos(PLAYER_A)*0.05
+		if AllowMovement==True:
+			PLAYER_X-=math.sin(PLAYER_A)*0.05
+			PLAYER_Y-=math.cos(PLAYER_A)*0.05
 	elif event.keysym.lower()=="d" or event.keysym.lower()=="right":
-		PLAYER_A+=0.03
-		#print(PLAYER_Y)
+		if AllowMovement==True:
+			PLAYER_A+=0.03
 	elif event.keysym.lower()=="a" or event.keysym.lower()=="left":
-		PLAYER_A-=0.03
-		#print(PLAYER_Y)
+		if AllowMovement==True:
+			PLAYER_A-=0.03
 	print(f"{PLAYER_X},{PLAYER_Y}")
 root.bind("<KeyPress>",keypress)
 
