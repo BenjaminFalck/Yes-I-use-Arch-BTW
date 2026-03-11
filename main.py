@@ -15,9 +15,14 @@ GRAPHIC_ADJUST=0.01
 
 MlemToggle=False
 AllowMovement=True
+
 BedroomActive=False
+LivingRoomActive=False
+OfficeActive=False
+KitchenActive=False
 StorageRoomActive=False
 BathroomActive=False
+FrontdoorActive=False
 
 #--------------------Level mappi--------------------
 MAP_W=10
@@ -26,7 +31,7 @@ MAP=[
 	"##########",
 	"###.#.####",
 	"#........#",
-	"###.#.#.##",
+	"###.###.##",
 	"######...#",
 	"#######..#",
 	"#######.##",
@@ -44,9 +49,14 @@ GameScreen.pack()
 
 #-----------------KUVAT JA TEKSTÖÖRIT--------------
 mlem_img=tk.PhotoImage(file="Images/cat.png")
+
 bedroom_img=tk.PhotoImage(file="Images/Rooms/Bedroom.png")
+living_room_img=tk.PhotoImage(file="Images/Rooms/Living_Room.png")
+office_img=tk.PhotoImage(file="Images/Rooms/Office.png")
+kitchen_img=tk.PhotoImage(file="Images/Rooms/Kitchen.png")
 storage_room_img=tk.PhotoImage(file="Images/Rooms/Storage_Room.png")
 bathroom_img=tk.PhotoImage(file="Images/Rooms/Bathroom.png")
+frontdoor_img=tk.PhotoImage(file="Images/Rooms/Frontdoor.png")
 
 #-------------------Raycasteröinti-------------------
 def CastRays():
@@ -92,15 +102,23 @@ def DrawScreen():
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
 		if BedroomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bedroom_img)
+		if LivingRoomActive:
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=living_room_img)
+		if OfficeActive:
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=office_img)
+		if KitchenActive:
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=kitchen_img)
 		if StorageRoomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=storage_room_img)
 		if BathroomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bathroom_img)
+		if FrontdoorActive:
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=frontdoor_img)
 	root.after(30,DrawScreen)
 
 #--------------------Key bindaukset --------------------------
 def keypress(event):
-	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,StorageRoomActive,BedroomActive,BathroomActive
+	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,BedroomActive,LivingRoomActive,OfficeActive,KitchenActive,StorageRoomActive,BathroomActive,FrontdoorActive
 	#-----------------MENU AKTIVOINNIT----------------------
 	if event.keysym.lower()=="m":
 		if MlemToggle==True:
@@ -112,8 +130,11 @@ def keypress(event):
 	#------------------GRAFIIKAN SÄÄTÖ------------------------
 	if event.keysym.lower()=="o" and GRAPHIC_ADJUST<0.1:GRAPHIC_ADJUST+=0.01
 	if event.keysym.lower()=="p" and GRAPHIC_ADJUST>0.01:GRAPHIC_ADJUST-=0.01
-	#------------------ROOM CHECK STUFFS----------------------
-	if PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=1 and PLAYER_Y<=2:
+
+
+	#------------------ROOM CHECK STUFFS----------------------------------------------------------------------
+
+	if PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=1 and PLAYER_Y<=2: #         < < < < < BEDROOM
 		print("Player in: Bedroom")
 		BedroomActive=True
 		AllowMovement=False
@@ -125,7 +146,44 @@ def keypress(event):
 			AllowMovement=True
 			BedroomActive=False
 
-	if PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=8 and PLAYER_Y<=9:
+	if PLAYER_X>=3 and PLAYER_X<=4 and PLAYER_Y>=3 and PLAYER_Y<=4: #         < < < < < LIVING ROOM
+		print("Player in: Living Room")
+		KitchenActive=True
+		AllowMovement=False
+		if event.keysym.lower()=="escape":
+			print("Mlem")
+			PLAYER_X=2.8
+			PLAYER_Y=3.5
+			PLAYER_A=math.pi/2*3
+			AllowMovement=True
+			KitchenActive=False
+
+	if PLAYER_X>=1 and PLAYER_X<=2 and PLAYER_Y>=3 and PLAYER_Y<=4: #         < < < < < OFFICE
+                print("Player in: Office")
+                OfficeActive=True
+                AllowMovement=False
+                if event.keysym.lower()=="escape":
+                        print("Mlem")
+                        PLAYER_X=2.2
+                        PLAYER_Y=3.5
+                        PLAYER_A=math.pi/2
+                        AllowMovement=True
+                        OfficeActive=False
+
+	if PLAYER_X>=1 and PLAYER_X<=2 and PLAYER_Y>=5 and PLAYER_Y<=6: #         < < < < < KITCHEN
+                print("Player in: Kitchen")
+                KitchenActive=True
+                AllowMovement=False
+                if event.keysym.lower()=="escape":
+                        print("Mlem")
+                        PLAYER_X=2.2
+                        PLAYER_Y=5.5
+                        PLAYER_A=math.pi/2
+                        AllowMovement=True
+                        KitchenActive=False
+
+
+	if PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=8 and PLAYER_Y<=9: #         < < < < < STORAGE
 		#print("Player in: Storage Room")
 		StorageRoomActive=True
 		AllowMovement=False
@@ -136,7 +194,8 @@ def keypress(event):
 			PLAYER_A=math.pi
 			AllowMovement=True
 			StorageRoomActive=False
-	if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3:
+
+	if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3: #         < < < < < BATHROOM
 		print("Player in: Bathroom")
 		BathroomActive=True
 		AllowMovement=False
@@ -147,6 +206,18 @@ def keypress(event):
 			PLAYER_A=0
 			AllowMovement=True
 			BathroomActive=False
+
+	if PLAYER_X>=6 and PLAYER_X<=7 and PLAYER_Y>=7 and PLAYER_Y<=8: #         < < < < < FRONTDOOR
+		print("Player in: Looking through frontdoor")
+		FrontdoorActive=True
+		AllowMovement=False
+		if event.keysym.lower()=="escape":
+                        print("Mlem")
+                        PLAYER_X=5.8
+                        PLAYER_Y=7.5
+                        PLAYER_A=math.pi/2*3
+                        AllowMovement=True
+                        FrontdoorActive=False
 
 	#------------------UKKO LIIKKUU---------------------------
 	if event.keysym.lower()=="w" or event.keysym.lower()=="up":
