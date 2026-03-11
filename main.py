@@ -16,6 +16,8 @@ GRAPHIC_ADJUST=0.01
 MlemToggle=False
 AllowMovement=True
 
+EscMenuActive=False
+
 BedroomActive=False
 LivingRoomActive=False
 OfficeActive=False
@@ -49,6 +51,7 @@ GameScreen.pack()
 
 #-----------------KUVAT JA TEKSTÖÖRIT--------------
 mlem_img=tk.PhotoImage(file="Images/cat.png")
+escmenu_img=tk.PhotoImage(file="Images/EscMenu.png")
 
 bedroom_img=tk.PhotoImage(file="Images/Rooms/Bedroom.png")
 living_room_img=tk.PhotoImage(file="Images/Rooms/Living_Room.png")
@@ -98,8 +101,13 @@ def DrawScreen():
 		GameScreen.create_rectangle(X,WALL_TOP-((SCREEN_H//2)-(WALL_H//2)),X+RAY_WIDTH,WALL_TOP,fill="#140410",outline="#140410") #Katon väritys
 		GameScreen.create_rectangle(X,WALL_BOTTOM,X+RAY_WIDTH,WALL_BOTTOM+((SCREEN_H//2)-(WALL_H//2)),fill="#1c0d03",outline="#1c0d03") #Lattian väritys #47270e
 
+
 		if MlemToggle:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
+		if EscMenuActive:
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=escmenu_img)
+
+
 		if BedroomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bedroom_img)
 		if LivingRoomActive:
@@ -118,7 +126,7 @@ def DrawScreen():
 
 #--------------------Key bindaukset --------------------------
 def keypress(event):
-	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,BedroomActive,LivingRoomActive,OfficeActive,KitchenActive,StorageRoomActive,BathroomActive,FrontdoorActive
+	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,EscMenuActive,BedroomActive,LivingRoomActive,OfficeActive,KitchenActive,StorageRoomActive,BathroomActive,FrontdoorActive
 	#-----------------MENU AKTIVOINNIT----------------------
 	if event.keysym.lower()=="m":
 		if MlemToggle==True:
@@ -127,6 +135,11 @@ def keypress(event):
 		else:
 			MlemToggle=True
 			AllowMovement=False
+	if event.keysym.lower()=="escape":
+		if EscMenuActive==True:EscMenuActive=False
+		else:
+			EscMenuActive=True
+			print("Kuops")
 	#------------------GRAFIIKAN SÄÄTÖ------------------------
 	if event.keysym.lower()=="o" and GRAPHIC_ADJUST<0.1:GRAPHIC_ADJUST+=0.01
 	if event.keysym.lower()=="p" and GRAPHIC_ADJUST>0.01:GRAPHIC_ADJUST-=0.01
