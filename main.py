@@ -44,9 +44,12 @@ MAP=[
 def CreateTablesSQL():
 	conn=sqlite3.connect("Data/gamesave.db")
 	cursor=conn.cursor()
-	cursor.execute("""DROP TABLE IF EXISTS savedata""")
+	#cursor.execute("""DROP TABLE IF EXISTS savedata""")
 	cursor.execute(
-		"""CREATE TABLE IF NOT EXISTS savedata(PLAYER_X REAL,PLAYER_Y REAL)"""
+		"""CREATE TABLE IF NOT EXISTS savedata(
+			PLAYER_X REAL,
+			PLAYER_Y REAL,
+			PLAYER_A REAL)"""
 	)
 	conn.commit()
 	conn.close()
@@ -55,24 +58,26 @@ def SaveGame():
 	CreateTablesSQL()
 	conn=sqlite3.connect("Data/gamesave.db")
 	cursor=conn.cursor()
+	cursor.execute("""DELETE FROM savedata """)
 	cursor.execute(
-		"""INSERT INTO savedata (PLAYER_X, PLAYER_Y) VALUES (?, ?)""",
-		(PLAYER_X, PLAYER_Y)
+		"""INSERT INTO savedata (PLAYER_X,PLAYER_Y,PLAYER_A) VALUES (?,?,?)""",
+		(PLAYER_X,PLAYER_Y,PLAYER_A)
 	)
-	for rivi in cursor.execute("SELECT PLAYER_X, PLAYER_Y FROM savedata"):
+	for rivi in cursor.execute("SELECT * FROM savedata"):
 		print(rivi)
 
 	conn.commit()
 	conn.close()
 
 def LoadGame():
-	global EscMenuActive,PLAYER_X,PLAYER_Y
+	global EscMenuActive,PLAYER_X,PLAYER_Y,PLAYER_A
 	conn=sqlite3.connect("Data/gamesave.db")
 	cursor=conn.cursor()
 	cursor.execute("""SELECT * FROM savedata""")
 	data=cursor.fetchone()
 	PLAYER_X=data[0]
 	PLAYER_Y=data[1]
+	PLAYER_A=data[2]
 	EscMenuActive=False
 
 
