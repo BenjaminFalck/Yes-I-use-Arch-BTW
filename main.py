@@ -52,6 +52,9 @@ GameScreen.pack()
 SaveButton=tk.Button(root,text="Save Game")
 SaveButton.place_forget()
 
+LoadButton=tk.Button(root,text="Load Game")
+LoadButton.place_forget()
+
 #-----------------KUVAT JA TEKSTÖÖRIT--------------
 mlem_img=tk.PhotoImage(file="Images/cat.png")
 escmenu_img=tk.PhotoImage(file="Images/EscMenu.png")
@@ -109,8 +112,11 @@ def DrawScreen():
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
 		if EscMenuActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=escmenu_img)
-			SaveButton.place(x=SCREEN_W/2,y=SCREEN_H/2)
-		else: SaveButton.place_forget()
+			SaveButton.place(x=SCREEN_W/2,y=SCREEN_H/2-50)
+			LoadButton.place(x=SCREEN_W/2,y=SCREEN_H/2+50)
+		else:
+			SaveButton.place_forget()
+			LoadButton.place_forget()
 
 
 		if BedroomActive:
