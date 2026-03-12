@@ -27,6 +27,10 @@ StorageRoomActive=False
 BathroomActive=False
 FrontdoorActive=False
 
+#pelilogiikkaan muuttujat
+IsDaytime=False
+
+
 #--------------------Level mappi--------------------
 MAP_W=10
 MAP_H=8
@@ -91,11 +95,15 @@ root.geometry(f"{SCREEN_W}x{SCREEN_H}")
 GameScreen=tk.Canvas(root,width=SCREEN_W,height=SCREEN_H,bg="#000000")
 GameScreen.pack()
 
+#----------BUTTONS----------
 SaveButton=tk.Button(root,text="Save Game",command=SaveGame)
 SaveButton.place_forget()
-
 LoadButton=tk.Button(root,text="Load Game",command=LoadGame)
 LoadButton.place_forget()
+WatchTvButton=tk.Button(root,text="WATCH TV FOR NEWS")
+WatchTvButton.place_forget()
+SleepButton=tk.Button(root,text="GO TO SLEEP")
+SleepButton.place_forget()
 
 #-----------------KUVAT JA TEKSTÖÖRIT--------------
 mlem_img=tk.PhotoImage(file="Images/cat.png")
@@ -163,6 +171,8 @@ def DrawScreen():
 
 		if BedroomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bedroom_img)
+			WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+250)
+			SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+300)
 		if LivingRoomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=living_room_img)
 		if OfficeActive:
@@ -303,7 +313,15 @@ def keypress(event):
 			PLAYER_A-=0.03
 	#-----------------------------------------------------------
 	print(f"{PLAYER_X},{PLAYER_Y}")
+
 root.bind("<KeyPress>",keypress)
+
+
+#----------------- GAME LOGIKOINNIT ------------------
+#def Daytime():
+
+
+
 
 #----------------------GAME LOOP STUFFS-------------------------
 #print(SCREEN_W)
