@@ -16,6 +16,8 @@ GRAPHIC_ADJUST=0.01
 
 MlemToggle=False
 AllowMovement=True
+TvActive=False
+
 
 EscMenuActive=False
 
@@ -27,8 +29,10 @@ StorageRoomActive=False
 BathroomActive=False
 FrontdoorActive=False
 
-#pelilogiikkaan muuttujat
-IsDaytime=False
+
+#pelilogiikan muuttujat
+DayNum=2
+Daytime=False
 
 
 #--------------------Level mappi--------------------
@@ -85,7 +89,7 @@ def LoadGame():
 	EscMenuActive=False
 
 
-#--------------------Tkinter Setup--------------------
+#-------------------------------------------Tkinter Setup-------------------------------------------------
 #Luodaan root ikkuna
 root=tk.Tk()
 root.title("Yes, I Use Arch BTW")
@@ -95,17 +99,8 @@ root.geometry(f"{SCREEN_W}x{SCREEN_H}")
 GameScreen=tk.Canvas(root,width=SCREEN_W,height=SCREEN_H,bg="#000000")
 GameScreen.pack()
 
-#----------BUTTONS----------
-SaveButton=tk.Button(root,text="Save Game",command=SaveGame)
-SaveButton.place_forget()
-LoadButton=tk.Button(root,text="Load Game",command=LoadGame)
-LoadButton.place_forget()
-WatchTvButton=tk.Button(root,text="WATCH TV FOR NEWS")
-WatchTvButton.place_forget()
-SleepButton=tk.Button(root,text="GO TO SLEEP")
-SleepButton.place_forget()
 
-#-----------------KUVAT JA TEKSTÖÖRIT--------------
+#------------------------------------KUVAT JA TEKSTÖÖRIT-----------------------------
 mlem_img=tk.PhotoImage(file="Images/cat.png")
 escmenu_img=tk.PhotoImage(file="Images/EscMenu.png")
 
@@ -116,6 +111,33 @@ kitchen_img=tk.PhotoImage(file="Images/Rooms/Kitchen.png")
 storage_room_img=tk.PhotoImage(file="Images/Rooms/Storage_Room.png")
 bathroom_img=tk.PhotoImage(file="Images/Rooms/Bathroom.png")
 frontdoor_img=tk.PhotoImage(file="Images/Rooms/Frontdoor.png")
+
+if DayNum==2:
+	news_day2_img=tk.PhotoImage(file="Images/Tv/NewsDay2.png")
+#--------------------------Draw Image Functions ------------------------
+def WatchTv():
+	global TvActive
+	TvActive=not TvActive
+	#BedroomActive=False
+	#bedroom_img.place_forget()
+
+
+
+
+#--------------------------------------BUTTONS-------------------------------------------------
+#ESC MENU
+SaveButton=tk.Button(root,text="Save Game",command=SaveGame)
+SaveButton.place_forget()
+LoadButton=tk.Button(root,text="Load Game",command=LoadGame)
+LoadButton.place_forget()
+#BEDROOM
+WatchTvButton=tk.Button(root,text="WATCH TV FOR NEWS",command=WatchTv)
+WatchTvButton.place_forget()
+SleepButton=tk.Button(root,text="GO TO SLEEP")
+SleepButton.place_forget()
+LeaveBedroomButton=tk.Button(root,text="LEAVE")
+LeaveBedroomButton.place_forget()
+
 
 #-------------------Raycasteröinti-------------------
 def CastRays():
@@ -160,6 +182,9 @@ def DrawScreen():
 
 		if MlemToggle:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
+		if TvActive:
+			#print("Attempting to draw tv area")
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_day2_img)
 		if EscMenuActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=escmenu_img)
 			SaveButton.place(x=SCREEN_W/2,y=SCREEN_H/2-50)
@@ -169,10 +194,11 @@ def DrawScreen():
 			LoadButton.place_forget()
 
 
-		if BedroomActive:
+		if BedroomActive and not TvActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bedroom_img)
-			WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+250)
-			SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+300)
+			WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+150)
+			SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+220)
+			LeaveBedroomButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
 		if LivingRoomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=living_room_img)
 		if OfficeActive:
