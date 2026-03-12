@@ -44,6 +44,7 @@ MAP=[
 def CreateTablesSQL():
 	conn=sqlite3.connect("Data/gamesave.db")
 	cursor=conn.cursor()
+	cursor.execute("""DROP TABLE IF EXISTS savedata""")
 	cursor.execute(
 		"""CREATE TABLE IF NOT EXISTS savedata(PLAYER_X REAL,PLAYER_Y REAL)"""
 	)
@@ -64,6 +65,16 @@ def SaveGame():
 	conn.commit()
 	conn.close()
 
+def LoadGame():
+	global EscMenuActive,PLAYER_X,PLAYER_Y
+	conn=sqlite3.connect("Data/gamesave.db")
+	cursor=conn.cursor()
+	cursor.execute("""SELECT * FROM savedata""")
+	data=cursor.fetchone()
+	PLAYER_X=data[0]
+	PLAYER_Y=data[1]
+	EscMenuActive=False
+
 
 #--------------------Tkinter Setup--------------------
 #Luodaan root ikkuna
@@ -78,7 +89,7 @@ GameScreen.pack()
 SaveButton=tk.Button(root,text="Save Game",command=SaveGame)
 SaveButton.place_forget()
 
-LoadButton=tk.Button(root,text="Load Game")
+LoadButton=tk.Button(root,text="Load Game",command=LoadGame)
 LoadButton.place_forget()
 
 #-----------------KUVAT JA TEKSTÖÖRIT--------------
