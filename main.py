@@ -40,6 +40,31 @@ MAP=[
 	"#######.##",
 	"##########"]
 
+#--------------------- SQL TAULUKOINTI --------------------------
+def CreateTablesSQL():
+	conn=sqlite3.connect("Data/gamesave.db")
+	cursor=conn.cursor()
+	cursor.execute(
+		"""CREATE TABLE IF NOT EXISTS savedata(PLAYER_X REAL,PLAYER_Y REAL)"""
+	)
+	conn.commit()
+	conn.close()
+
+def SaveGame():
+	CreateTablesSQL()
+	conn=sqlite3.connect("Data/gamesave.db")
+	cursor=conn.cursor()
+	cursor.execute(
+		"""INSERT INTO savedata (PLAYER_X, PLAYER_Y) VALUES (?, ?)""",
+		(PLAYER_X, PLAYER_Y)
+	)
+	for rivi in cursor.execute("SELECT PLAYER_X, PLAYER_Y FROM savedata"):
+		print(rivi)
+
+	conn.commit()
+	conn.close()
+
+
 #--------------------Tkinter Setup--------------------
 #Luodaan root ikkuna
 root=tk.Tk()
@@ -50,7 +75,7 @@ root.geometry(f"{SCREEN_W}x{SCREEN_H}")
 GameScreen=tk.Canvas(root,width=SCREEN_W,height=SCREEN_H,bg="#000000")
 GameScreen.pack()
 
-SaveButton=tk.Button(root,text="Save Game")
+SaveButton=tk.Button(root,text="Save Game",command=SaveGame)
 SaveButton.place_forget()
 
 LoadButton=tk.Button(root,text="Load Game")
@@ -135,13 +160,8 @@ def DrawScreen():
 		if FrontdoorActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=frontdoor_img)
 	root.after(30,DrawScreen)
-#--------------------- Pelin Tallennus --------------------------
-def CreateTablesSQL():
-	conn=sqlite3.connect("Data/gamesave.db")
-	sql="""CREATE TABLE IF NOT EXISTS savedata(
-		PLAYER_X=REAL   #< < < < < < REAL on tässä parempi kuin DECIMAL koska DECIMAL saattaa tallentua joko REAL (desimaaliluku) tai TEXT muodossa. 
-		PLAYER_Y=REAL
-)"""
+
+
 #--------------------Key bindaukset --------------------------
 def keypress(event):
 	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,EscMenuActive,BedroomActive,LivingRoomActive,OfficeActive,KitchenActive,StorageRoomActive,BathroomActive,FrontdoorActive
