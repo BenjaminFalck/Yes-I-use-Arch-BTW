@@ -1,5 +1,6 @@
 import tkinter as tk
 import math
+import sqlite3
 
 #--------------------Alustusmuuttujia-----------------
 SCREEN_W=1280
@@ -134,7 +135,13 @@ def DrawScreen():
 		if FrontdoorActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=frontdoor_img)
 	root.after(30,DrawScreen)
-
+#--------------------- Pelin Tallennus --------------------------
+def CreateTablesSQL():
+	conn=sqlite3.connect("Data/gamesave.db")
+	sql="""CREATE TABLE IF NOT EXISTS savedata(
+		PLAYER_X=REAL   #< < < < < < REAL on tässä parempi kuin DECIMAL koska DECIMAL saattaa tallentua joko REAL (desimaaliluku) tai TEXT muodossa. 
+		PLAYER_Y=REAL
+)"""
 #--------------------Key bindaukset --------------------------
 def keypress(event):
 	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,EscMenuActive,BedroomActive,LivingRoomActive,OfficeActive,KitchenActive,StorageRoomActive,BathroomActive,FrontdoorActive
@@ -264,5 +271,6 @@ root.bind("<KeyPress>",keypress)
 
 #----------------------GAME LOOP STUFFS-------------------------
 #print(SCREEN_W)
+CreateTablesSQL()
 DrawScreen()
 root.mainloop()
