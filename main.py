@@ -223,22 +223,27 @@ def DrawScreen():
 			WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+150)
 			SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+220)
 			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
-		if TvActive:
+		elif TvActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_day2_img)
 			WatchTvButton.place_forget()
 			SleepButton.place_forget()
-		if LivingRoomActive:
+		elif LivingRoomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=living_room_img)
-		if OfficeActive:
+		elif OfficeActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=office_img)
-		if KitchenActive:
+		elif KitchenActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=kitchen_img)
-		if StorageRoomActive:
+		elif StorageRoomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=storage_room_img)
-		if BathroomActive:
+		elif BathroomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bathroom_img)
-		if FrontdoorActive:
+		elif FrontdoorActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=frontdoor_img)
+		else:
+			WatchTvButton.place_forget()
+			SleepButton.place_forget()
+			LeaveButton.place_forget()
+
 	root.after(30,DrawScreen)
 
 
