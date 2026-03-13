@@ -94,12 +94,17 @@ def LoadGame():
 
 #---------------Ummmm more funktions clean later---------------------
 def LeaveCurrentState():
-	global BedroomActive,TvActive
+	global BedroomActive,TvActive,AllowMovement,PLAYER_X,PLAYER_Y
 	if TvActive:
 		BedroomActive=True
 		TvActive=False
 	elif BedroomActive:
 		BedroomActive=False
+		PLAYER_X=2.5
+		PLAYER_Y=2.5
+		print(AllowMovement)
+		AllowMovement=True
+		print(AllowMovement)
 
 #-------------------------------------------Tkinter Setup-------------------------------------------------
 #Luodaan root ikkuna
@@ -276,7 +281,7 @@ def keypress(event):
 			AllowMovement=True
 			BedroomActive=False
 
-	elif PLAYER_X>=3 and PLAYER_X<=4 and PLAYER_Y>=3 and PLAYER_Y<=4: #         < < < < < LIVING ROOM
+	if PLAYER_X>=3 and PLAYER_X<=4 and PLAYER_Y>=3 and PLAYER_Y<=4: #         < < < < < LIVING ROOM
 		print("Player in: Living Room")
 		KitchenActive=True
 		AllowMovement=False
@@ -288,7 +293,7 @@ def keypress(event):
 			AllowMovement=True
 			KitchenActive=False
 
-	elif PLAYER_X>=1 and PLAYER_X<=2 and PLAYER_Y>=3 and PLAYER_Y<=4: #         < < < < < OFFICE
+	if PLAYER_X>=1 and PLAYER_X<=2 and PLAYER_Y>=3 and PLAYER_Y<=4: #         < < < < < OFFICE
 		print("Player in: Office")
 		OfficeActive=True
 		AllowMovement=False
@@ -300,7 +305,7 @@ def keypress(event):
 			AllowMovement=True
 			OfficeActive=False
 
-	elif PLAYER_X>=1 and PLAYER_X<=2 and PLAYER_Y>=5 and PLAYER_Y<=6: #         < < < < < KITCHEN
+	if PLAYER_X>=1 and PLAYER_X<=2 and PLAYER_Y>=5 and PLAYER_Y<=6: #         < < < < < KITCHEN
 		print("Player in: Kitchen")
 		KitchenActive=True
 		AllowMovement=False
@@ -313,7 +318,7 @@ def keypress(event):
 			KitchenActive=False
 
 
-	elif PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=8 and PLAYER_Y<=9: #         < < < < < STORAGE
+	if PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=8 and PLAYER_Y<=9: #         < < < < < STORAGE
 		#print("Player in: Storage Room")
 		StorageRoomActive=True
 		AllowMovement=False
@@ -325,7 +330,7 @@ def keypress(event):
 			AllowMovement=True
 			StorageRoomActive=False
 
-	elif PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3: #         < < < < < BATHROOM
+	if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3: #         < < < < < BATHROOM
 		print("Player in: Bathroom")
 		BathroomActive=True
 		AllowMovement=False
@@ -337,7 +342,7 @@ def keypress(event):
 			AllowMovement=True
 			BathroomActive=False
 
-	elif PLAYER_X>=6 and PLAYER_X<=7 and PLAYER_Y>=7 and PLAYER_Y<=8: #         < < < < < FRONTDOOR
+	if PLAYER_X>=6 and PLAYER_X<=7 and PLAYER_Y>=7 and PLAYER_Y<=8: #         < < < < < FRONTDOOR
 		print("Player in: Looking through frontdoor")
 		FrontdoorActive=True
 		AllowMovement=False
@@ -349,9 +354,6 @@ def keypress(event):
                         AllowMovement=True
                         FrontdoorActive=False
 
-	else:
-		HallwayActive=False
-		print("Player in: Hallway")
 
 	#------------------UKKO LIIKKUU---------------------------
 	if event.keysym.lower()=="w" or event.keysym.lower()=="up":
