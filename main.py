@@ -23,7 +23,7 @@ TvActive=False
 
 EscMenuActive=False
 
-#HallwayActive=True
+RoomActive=False
 BedroomActive=False
 LivingRoomActive=False
 OfficeActive=False
@@ -94,7 +94,7 @@ def LoadGame():
 
 #---------------Ummmm more funktions clean later---------------------
 def LeaveCurrentState():
-	global BedroomActive,TvActive,AllowMovement,PLAYER_X,PLAYER_Y
+	global BedroomActive,TvActive,AllowMovement,PLAYER_X,PLAYER_Y,PLAYER_A
 	if TvActive:
 		BedroomActive=True
 		TvActive=False
@@ -102,6 +102,7 @@ def LeaveCurrentState():
 		BedroomActive=False
 		PLAYER_X=2.5
 		PLAYER_Y=2.5
+		PLAYER_A=0
 		print(AllowMovement)
 		AllowMovement=True
 		print(AllowMovement)
@@ -250,7 +251,7 @@ def DrawScreen():
 
 #--------------------Key bindaukset --------------------------
 def keypress(event):
-	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,EscMenuActive,BedroomActive,LivingRoomActive,OfficeActive,KitchenActive,StorageRoomActive,BathroomActive,FrontdoorActive,TvActive
+	global PLAYER_X,PLAYER_Y,PLAYER_A,MlemToggle,AllowMovement,GRAPHIC_ADJUST,EscMenuActive,RoomActive,BedroomActive,LivingRoomActive,OfficeActive,KitchenActive,StorageRoomActive,BathroomActive,FrontdoorActive,TvActive
 	#-----------------MENU AKTIVOINNIT----------------------
 	if event.keysym.lower()=="m":
 		if MlemToggle==True:
@@ -259,15 +260,11 @@ def keypress(event):
 		else:
 			MlemToggle=True
 			AllowMovement=False
-	if event.keysym.lower()=="escape":
+	if event.keysym.lower()=="escape" and not RoomActive:
 		print(EscMenuActive)
 		EscMenuActive=not EscMenuActive
 		print(EscMenuActive)
-		if TvActive:
-			TvActive=False
-		elif  BedroomActive or OfficeActive or KitchenActive or StorageRoomActive or BathroomActive:
-			EscMenuActive=False
-			print("Kuops")
+
 	#------------------GRAFIIKAN SÄÄTÖ------------------------
 	if event.keysym.lower()=="o" and GRAPHIC_ADJUST<0.1:GRAPHIC_ADJUST+=0.01
 	if event.keysym.lower()=="p" and GRAPHIC_ADJUST>0.01:GRAPHIC_ADJUST-=0.01
@@ -278,14 +275,16 @@ def keypress(event):
 	if PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=1 and PLAYER_Y<=2: #         < < < < < BEDROOM
 		print("Player in: Bedroom")
 		BedroomActive=True
+		RoomActive=True
 		AllowMovement=False
-		if event.keysym.lower()=="escape":
-			print("Mlem")
-			PLAYER_X=2.5
-			PLAYER_Y=2.5
-			PLAYER_A=0
-			AllowMovement=True
-			BedroomActive=False
+		#if event.keysym.lower()=="escape":
+		#	print("Mlem")
+		#	PLAYER_X=2.5
+		#	PLAYER_Y=2.5
+		#	PLAYER_A=0
+		#	AllowMovement=True
+		#	BedroomActive=False
+		#	RoomActive=False
 
 	if PLAYER_X>=3 and PLAYER_X<=4 and PLAYER_Y>=3 and PLAYER_Y<=4: #         < < < < < LIVING ROOM
 		print("Player in: Living Room")
