@@ -1,6 +1,7 @@
 import tkinter as tk
 import math
 import sqlite3
+#import simpleaudio as sa
 
 #--------------------Alustusmuuttujia-----------------
 SCREEN_W=1280
@@ -91,6 +92,15 @@ def LoadGame():
 	EscMenuActive=False
 
 
+#---------------Ummmm more funktions clean later---------------------
+def LeaveCurrentState():
+	global BedroomActive,TvActive
+	if TvActive:
+		BedroomActive=True
+		TvActive=False
+	elif BedroomActive:
+		BedroomActive=False
+
 #-------------------------------------------Tkinter Setup-------------------------------------------------
 #Luodaan root ikkuna
 root=tk.Tk()
@@ -116,18 +126,16 @@ frontdoor_img=tk.PhotoImage(file="Images/Rooms/Frontdoor.png")
 
 if DayNum==2:
 	news_day2_img=tk.PhotoImage(file="Images/Tv/NewsDay2.png")
-
+#-----------------AUDIO---------------------------
+#Kontiovaara_sound1=sa.WaveObject.from_wave_file("KontiovaaraKautattekoHuumeita.wav") #KOKEILE MYÖHEMMIN. LINUX TO WINDOWS DEV AUDIO MENEE LIIAN MONIMUTKAISEKSI NOPEAAN PROJEKTIIN.
+#Kontiovaara_play=None                                                      #IMPORT OS SYSTEM CHECK + IMPORT WINSOUND EHKÄ TOIMII WINDOWSILLE MITÄ KOULU TODENNÄK KÄYTTÄÄ
 #--------------------------Draw Image Functions ------------------------
 def WatchTv():
 	global TvActive, AllowButtons
 	TvActive=not TvActive
 	WatchTvButton.place_forget()
 	SleepButton.place_forget()
-	LeaveBedroomButton.place_forget()
-	#if AllowButtons==True:
-	#	print(AllowButtons)
-	#	AllowButtons=not AllowButtons
-
+	LeaveButton.place_forget()
 #-----------------------------------------------------BUTTONS----------------------------------------------------------------
 #ESC MENU
 ResumeButton=tk.Button(root,text="Resume Game")
@@ -145,9 +153,8 @@ WatchTvButton=tk.Button(root,text="WATCH TV FOR NEWS",command=WatchTv)
 WatchTvButton.place_forget()
 SleepButton=tk.Button(root,text="GO TO SLEEP")
 SleepButton.place_forget()
-LeaveBedroomButton=tk.Button(root,text="LEAVE")
-LeaveBedroomButton.place_forget()
-
+LeaveButton=tk.Button(root,text="LEAVE",command=LeaveCurrentState)
+LeaveButton.place_forget()
 
 #-------------------Raycasteröinti-------------------
 def CastRays():
@@ -170,7 +177,6 @@ def CastRays():
 		WALL_H=int(SCREEN_H/(RAY_D+0.01))
 		WALL_HEIGHTS_LISTED.append(WALL_H)
 	return WALL_HEIGHTS_LISTED
-
 #--------------------Renderöys-------------------------
 def DrawScreen():
 	GameScreen.delete("all")
@@ -192,9 +198,6 @@ def DrawScreen():
 
 		if MlemToggle:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
-		if TvActive:
-			#print("Attempting to draw tv area")
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_day2_img)
 		if EscMenuActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=escmenu_img)
 			ResumeButton.place(x=SCREEN_W/2-10,y=SCREEN_H/2-120)
@@ -203,17 +206,22 @@ def DrawScreen():
 			HowToPlayButton.place(x=SCREEN_W/2,y=SCREEN_H/2+90)
 			ExitButton.place(x=SCREEN_W/2,y=SCREEN_H/2+160)
 		else:
+			ResumeButton.place_forget()
 			SaveButton.place_forget()
 			LoadButton.place_forget()
+			HowToPlayButton.place_forget()
+			ExitButton.place_forget()
 
 
-		if BedroomActive and not TvActive:
+		if BedroomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bedroom_img)
-			if AllowButtons==True:
-				WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+150)
-				SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+220)
-				LeaveBedroomButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
-			else: WatchTvButton.place_forget()
+			WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+150)
+			SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+220)
+			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
+		if TvActive:
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_day2_img)
+			WatchTvButton.place_forget()
+			SleepButton.place_forget()
 		if LivingRoomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=living_room_img)
 		if OfficeActive:
@@ -376,4 +384,5 @@ root.bind("<KeyPress>",keypress)
 #print(SCREEN_W)
 CreateTablesSQL()
 DrawScreen()
+#PlayKontiovaara()
 root.mainloop()
