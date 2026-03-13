@@ -137,7 +137,9 @@ if DayNum==2:
 #--------------------------Draw Image Functions ------------------------
 def WatchTv():
 	global TvActive, AllowButtons
-	TvActive=not TvActive
+	print(TvActive)
+	TvActive=True
+	print(TvActive)
 	WatchTvButton.place_forget()
 	SleepButton.place_forget()
 	LeaveButton.place_forget()
@@ -197,53 +199,57 @@ def DrawScreen():
 		else:COLOUR_WALL="#190514"
 
 		GameScreen.create_rectangle(X,WALL_TOP,X+RAY_WIDTH,WALL_BOTTOM,fill=COLOUR_WALL,outline=COLOUR_WALL) #Seinän väritys
-		GameScreen.create_rectangle(X,WALL_TOP-((SCREEN_H//2)-(WALL_H//2)),X+RAY_WIDTH,WALL_TOP,fill="#140410",outline="#140410") #Katon väritys
+		create_rectangle(X,WALL_TOP-((SCREEN_H//2)-(WALL_H//2)),X+RAY_WIDTH,WALL_TOP,fill="#140410",outline="#140410") #Katon väritys
 		GameScreen.create_rectangle(X,WALL_BOTTOM,X+RAY_WIDTH,WALL_BOTTOM+((SCREEN_H//2)-(WALL_H//2)),fill="#1c0d03",outline="#1c0d03") #Lattian väritys #47270e
 
 
-		if MlemToggle:
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
-		if EscMenuActive:
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=escmenu_img)
-			ResumeButton.place(x=SCREEN_W/2-10,y=SCREEN_H/2-120)
-			SaveButton.place(x=SCREEN_W/2,y=SCREEN_H/2-50)
-			LoadButton.place(x=SCREEN_W/2,y=SCREEN_H/2+20)
-			HowToPlayButton.place(x=SCREEN_W/2,y=SCREEN_H/2+90)
-			ExitButton.place(x=SCREEN_W/2,y=SCREEN_H/2+160)
-		else:
-			ResumeButton.place_forget()
-			SaveButton.place_forget()
-			LoadButton.place_forget()
-			HowToPlayButton.place_forget()
-			ExitButton.place_forget()
+	if MlemToggle:
+		GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=mlem_img)
+	if EscMenuActive:
+		GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=escmenu_img)
+		ResumeButton.place(x=SCREEN_W/2-10,y=SCREEN_H/2-120)
+		SaveButton.place(x=SCREEN_W/2,y=SCREEN_H/2-50)
+		LoadButton.place(x=SCREEN_W/2,y=SCREEN_H/2+20)
+		HowToPlayButton.place(x=SCREEN_W/2,y=SCREEN_H/2+90)
+		ExitButton.place(x=SCREEN_W/2,y=SCREEN_H/2+160)
+	else:
+		ResumeButton.place_forget()
+		SaveButton.place_forget()
+		LoadButton.place_forget()
+		HowToPlayButton.place_forget()
+		ExitButton.place_forget()
 
 
-		if BedroomActive:
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bedroom_img)
-			WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+150)
-			SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+220)
-			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
-		else:
-			WatchTvButton.place_forget()
-			SleepButton.place_forget()
-			LeaveButton.place_forget()
+	if BedroomActive:
+		print(f"Bedroom active: {BedroomActive}... TvActive: {TvActive}")
+		GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bedroom_img)
+		WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+150)
+		SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+220)
+		LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
 
-		if TvActive:
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_day2_img)
-			WatchTvButton.place_forget()
-			SleepButton.place_forget()
-		if LivingRoomActive: #                                                                      <<<ÄLÄ LAITA ELIF SE RIKKOUTUU HELPOSTI TOIMINNALLISUUKSIA LISÄTESSÄ
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=living_room_img)
-		if OfficeActive:
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=office_img)
-		if KitchenActive:
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=kitchen_img)
-		if StorageRoomActive:
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=storage_room_img)
-		if BathroomActive:
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bathroom_img)
-		if FrontdoorActive:
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=frontdoor_img)
+	if LivingRoomActive:
+		GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=living_room_img)
+	if OfficeActive:
+		GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=office_img)
+	if KitchenActive:
+		GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=kitchen_img)
+	if StorageRoomActive:
+		GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=storage_room_img)
+	if BathroomActive:
+		GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bathroom_img)
+	if FrontdoorActive:
+		GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=frontdoor_img)
+	else:
+		WatchTvButton.place_forget()
+		SleepButton.place_forget()
+		LeaveButton.place_forget()
+
+	if TvActive:
+		GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_day2_img)
+		WatchTvButton.place_forget()
+		SleepButton.place_forget()
+
+
 
 	root.after(30,DrawScreen)
 
