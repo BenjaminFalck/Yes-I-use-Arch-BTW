@@ -95,7 +95,7 @@ def LoadGame():
 
 #---------------Ummmm more funktions clean later---------------------
 def LeaveCurrentState():
-	global BedroomActive,TvActive,AllowMovement,PLAYER_X,PLAYER_Y,PLAYER_A
+	global BedroomActive,TvActive,FrontdoorActive,AllowMovement,PLAYER_X,PLAYER_Y,PLAYER_A
 	if TvActive:
 		BedroomActive=True
 		TvActive=False
@@ -107,6 +107,12 @@ def LeaveCurrentState():
 		print(AllowMovement)
 		AllowMovement=True
 		print(AllowMovement)
+	elif FrontdoorActive:
+		FrontdoorActive=False
+		PLAYER_X=5.8
+		PLAYER_Y=7.5
+		PLAYER_A=math.pi/2*3
+		AllowMovement=True
 
 #-------------------------------------------Tkinter Setup-------------------------------------------------
 #Luodaan root ikkuna
@@ -271,10 +277,11 @@ def DrawScreen():
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bathroom_img)
 		if FrontdoorActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=frontdoor_img)
+			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
 			if SomeoneAtDoor!="":
 				GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=visitor_img)
 
-	root.after(30,DrawScreen)
+	root.after(40,DrawScreen)
 
 
 #--------------------Key bindaukset --------------------------
@@ -378,14 +385,15 @@ def keypress(event):
 	if PLAYER_X>=6 and PLAYER_X<=7 and PLAYER_Y>=7 and PLAYER_Y<=8: #         < < < < < FRONTDOOR
 		print("Player in: Looking through frontdoor")
 		FrontdoorActive=True
+		RoomActive=True
 		AllowMovement=False
-		if event.keysym.lower()=="escape":
-                        print("Mlem")
-                        PLAYER_X=5.8
-                        PLAYER_Y=7.5
-                        PLAYER_A=math.pi/2*3
-                        AllowMovement=True
-                        FrontdoorActive=False
+		#if event.keysym.lower()=="escape":
+                #        print("Mlem")
+                #        PLAYER_X=5.8
+                #        PLAYER_Y=7.5
+                #        PLAYER_A=math.pi/2*3
+                #        AllowMovement=True
+                #        FrontdoorActive=False
 
 
 	#------------------UKKO LIIKKUU---------------------------
