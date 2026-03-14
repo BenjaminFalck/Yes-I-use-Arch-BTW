@@ -218,7 +218,7 @@ def CastRays():
 	return WALL_HEIGHTS_LISTED
 #--------------------Renderöys-------------------------
 def DrawScreen():
-	global RoomDrawn
+	global RoomDrawn,RoomActive
 	if not RoomActive:
 		GameScreen.delete("all")
 		WALL_HEIGHTS_LISTED=CastRays()
@@ -266,6 +266,7 @@ def DrawScreen():
 			SleepButton.place_forget()
 			LeaveButton.place_forget()
 			RoomDrawn=False
+			RoomActive=False
 
 		if TvActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_img)
