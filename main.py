@@ -35,7 +35,7 @@ FrontdoorActive=False
 
 #pelilogiikan muuttujat
 DayNum=2
-Daytime=False
+NightTime=False
 
 
 #--------------------Level mappi--------------------
@@ -137,11 +137,21 @@ if DayNum==2:
 #Kontiovaara_play=None                                                      #IMPORT OS SYSTEM CHECK + IMPORT WINSOUND EHKÄ TOIMII WINDOWSILLE MITÄ KOULU TODENNÄK KÄYTTÄÄ
 #--------------------------Draw Image Functions ------------------------
 def WatchTv():
-	global TvActive, AllowButtons
+	global TvActive,AllowButtons
 	TvActive=not TvActive
 	WatchTvButton.place_forget()
 	SleepButton.place_forget()
 	LeaveButton.place_forget()
+
+def BedTime():
+	global NightTime,DayNum
+	print(f"Onko vanha aika yö? {NightTime}")
+	NightTime=not NightTime
+	print(f"Onko uusi aika yö? {NightTime}")
+	print(f"Now is day {DayNum}")
+	if NightTime==True:DayNum+=1
+	print(f"Now is day {DayNum}")
+
 #-----------------------------------------------------BUTTONS----------------------------------------------------------------
 #ESC MENU
 ResumeButton=tk.Button(root,text="Resume Game")
@@ -157,7 +167,7 @@ ExitButton.place_forget()
 #BEDROOM
 WatchTvButton=tk.Button(root,text="WATCH TV FOR NEWS",command=WatchTv)
 WatchTvButton.place_forget()
-SleepButton=tk.Button(root,text="GO TO SLEEP")
+SleepButton=tk.Button(root,text="GO TO CODE IN BED",command=BedTime)
 SleepButton.place_forget()
 LeaveButton=tk.Button(root,text="LEAVE",command=LeaveCurrentState)
 LeaveButton.place_forget()
