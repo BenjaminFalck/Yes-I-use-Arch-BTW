@@ -22,6 +22,7 @@ TvActive=False
 
 
 EscMenuActive=False
+NotificationVisible=False
 
 RoomActive=False
 RoomDrawn=False
@@ -164,6 +165,10 @@ def LeaveCurrentState():
 		LeaveButton.place_forget()
 	if EscMenuActive:
 		EscMenuActive=False
+
+def NotifyPlayer(message,duration):
+	NotificationText=GameScreen.create_text(SCREEN_W/2,SCREEN_H/2-325,text=message,fill="#ffab23",font=("Courier New",30))
+	GameScreen.after(duration, lambda: GameScreen.delete(NotificationText))
 #-------------------------------------------Tkinter Setup-------------------------------------------------
 #Luodaan root ikkuna
 root=tk.Tk()
@@ -209,6 +214,7 @@ def BedTime():
 	global NightTime,DayNum,news_img,SomeoneAtDoor
 	if SomeoneAtDoor!="":
 		print("Et voi koodata vielä, joku on ovella!")
+		NotifyPlayer("Et voi koodata vielä, joku on ovella!",2000)
 	else:
 		print(f"Onko vanha aika yö? {NightTime}")
 		NightTime=not NightTime
@@ -399,26 +405,12 @@ def keypress(event):
 		StorageRoomActive=True
 		RoomActive=True
 		AllowMovement=False
-		#if event.keysym.lower()=="escape":
-		#	print("MLEM")
-		#	PLAYER_X=2.5
-		#	PLAYER_Y=7.99
-		#	PLAYER_A=math.pi
-		#	AllowMovement=True
-		#	StorageRoomActive=False
 
 	if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3: #         < < < < < BATHROOM
 		print("Player in: Bathroom")
 		BathroomActive=True
 		RoomActive=True
 		AllowMovement=False
-		#if event.keysym.lower()=="escape":
-		#	print("Mlem")
-		#	PLAYER_X=4.5
-		#	PLAYER_Y=7.5
-		#	PLAYER_A=0
-		#	AllowMovement=True
-		#	BathroomActive=False
 
 	if PLAYER_X>=6 and PLAYER_X<=7 and PLAYER_Y>=7 and PLAYER_Y<=8: #         < < < < < FRONTDOOR
 		print("Player in: Looking through frontdoor")
@@ -445,10 +437,6 @@ def keypress(event):
 	print(f"{PLAYER_X},{PLAYER_Y}")
 
 root.bind("<KeyPress>",keypress)
-
-
-#----------------- GAME LOGIKOINNIT ------------------
-#def Daytime():
 
 
 
