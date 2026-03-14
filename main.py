@@ -96,7 +96,7 @@ def LoadGame():
 
 #---------------Ummmm more funktions clean later---------------------
 def LeaveCurrentState():
-	global BedroomActive,TvActive,FrontdoorActive,AllowMovement,PLAYER_X,PLAYER_Y,PLAYER_A
+	global BedroomActive,RoomActive,RoomDrawn,TvActive,FrontdoorActive,AllowMovement,PLAYER_X,PLAYER_Y,PLAYER_A
 	if TvActive:
 		BedroomActive=True
 		RoomActive=True
