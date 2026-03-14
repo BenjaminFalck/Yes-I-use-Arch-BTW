@@ -115,6 +115,7 @@ def LeaveCurrentState():
 		PLAYER_A=math.pi/2*3
 		AllowMovement=True
 		RoomActive=False
+		LeaveButton.place_forget()
 
 #-------------------------------------------Tkinter Setup-------------------------------------------------
 #Luodaan root ikkuna
