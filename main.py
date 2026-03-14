@@ -99,7 +99,9 @@ def LeaveCurrentState():
 	global BedroomActive,TvActive,FrontdoorActive,AllowMovement,PLAYER_X,PLAYER_Y,PLAYER_A
 	if TvActive:
 		BedroomActive=True
+		RoomActive=True
 		TvActive=False
+		RoomDrawn=False
 	elif BedroomActive:
 		BedroomActive=False
 		PLAYER_X=2.5
@@ -254,14 +256,13 @@ def DrawScreen():
 			ExitButton.place_forget()
 
 	else:
-		if BedroomActive:
+		if BedroomActive and not RoomDrawn:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bedroom_img)
-			if not RoomDrawn:
-				WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+150)
-				SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+220)
-				LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
-				RoomDrawn=True
-		else:
+			WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+150)
+			SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+220)
+			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
+			RoomDrawn=True
+		elif not BedroomActive and RoomDrawn:
 			WatchTvButton.place_forget()
 			SleepButton.place_forget()
 			LeaveButton.place_forget()
@@ -272,6 +273,7 @@ def DrawScreen():
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_img)
 			WatchTvButton.place_forget()
 			SleepButton.place_forget()
+			LeaveButton.place(x=SCREEN_W/2-600, y=SCREEN_H/2+290)
 
 		if LivingRoomActive: #                                                                      <<<ÄLÄ LAITA ELIF SE RIKKOUTUU HELPOSTI TOIMINNALLISUUKSIA LISÄTESSÄ
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=living_room_img)
