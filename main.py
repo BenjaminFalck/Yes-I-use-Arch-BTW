@@ -93,6 +93,8 @@ def LoadGame():
 	PLAYER_A=data[2]
 	EscMenuActive=False
 
+def ExitGame():
+	root.quit()
 
 #---------------Ummmm more funktions clean later---------------------
 def LeaveCurrentState():
@@ -232,7 +234,7 @@ LoadButton=tk.Button(root,text="Load Game",command=LoadGame)
 LoadButton.place_forget()
 HowToPlayButton=tk.Button(root,text="How To Play",command=LoadGame)
 HowToPlayButton.place_forget()
-ExitButton=tk.Button(root,text="Exit Game",command=LoadGame)
+ExitButton=tk.Button(root,text="Exit Game",command=ExitGame)
 ExitButton.place_forget()
 #BEDROOM
 WatchTvButton=tk.Button(root,text="WATCH TV FOR NEWS",command=WatchTv)
