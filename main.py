@@ -96,7 +96,7 @@ def LoadGame():
 
 #---------------Ummmm more funktions clean later---------------------
 def LeaveCurrentState():
-	global BedroomActive,RoomActive,RoomDrawn,TvActive,FrontdoorActive,AllowMovement,PLAYER_X,PLAYER_Y,PLAYER_A
+	global EscMenuActive,RoomActive,RoomDrawn,BedroomActive,TvActive,LivingRoomActive,OfficeActive,KitchenActive,StorageRoomActive,BathroomActive,FrontdoorActive,AllowMovement,PLAYER_X,PLAYER_Y,PLAYER_A
 	if TvActive:
 		BedroomActive=True
 		RoomActive=True
@@ -108,6 +108,33 @@ def LeaveCurrentState():
 		PLAYER_Y=2.5
 		PLAYER_A=0
 		AllowMovement=True
+	elif LivingRoomActive:
+                LivingRoomActive=False
+                PLAYER_X=2.8
+                PLAYER_Y=3.5
+                PLAYER_A=math.pi/2*3
+                AllowMovement=True
+                RoomActive=False
+                LeaveButton.place_forget()
+
+	elif OfficeActive:
+                OfficeActive=False
+                PLAYER_X=2.2
+                PLAYER_Y=3.5
+                PLAYER_A=math.pi/2
+                AllowMovement=True
+                RoomActive=False
+                LeaveButton.place_forget()
+
+	elif KitchenActive:
+                KitchenActive=False
+                PLAYER_X=2.2
+                PLAYER_Y=5.5
+                PLAYER_A=math.pi/2
+                AllowMovement=True
+                RoomActive=False
+                LeaveButton.place_forget()
+
 	elif FrontdoorActive:
 		FrontdoorActive=False
 		PLAYER_X=5.8
@@ -116,7 +143,8 @@ def LeaveCurrentState():
 		AllowMovement=True
 		RoomActive=False
 		LeaveButton.place_forget()
-
+	if EscMenuActive:
+		EscMenuActive=False
 #-------------------------------------------Tkinter Setup-------------------------------------------------
 #Luodaan root ikkuna
 root=tk.Tk()
@@ -179,7 +207,7 @@ def BedTime():
 
 #-----------------------------------------------------BUTTONS----------------------------------------------------------------
 #ESC MENU
-ResumeButton=tk.Button(root,text="Resume Game")
+ResumeButton=tk.Button(root,text="Resume Game",command=LeaveCurrentState)
 ResumeButton.place_forget()
 SaveButton=tk.Button(root,text="Save Game",command=SaveGame)
 SaveButton.place_forget()
@@ -223,6 +251,7 @@ def DrawScreen():
 	global RoomDrawn,RoomActive
 	if not RoomActive:
 		GameScreen.delete("all")
+		print("Room aint active")
 		WALL_HEIGHTS_LISTED=CastRays()
 		for WALL_H_INDEX, WALL_H in enumerate(WALL_HEIGHTS_LISTED): #numeroittaa list itemin indexin muuttujaan WALL_H_INDEX
 			X=WALL_H_INDEX*RAY_WIDTH
@@ -277,21 +306,26 @@ def DrawScreen():
 
 		if LivingRoomActive: #                                                                      <<<ÄLÄ LAITA ELIF SE RIKKOUTUU HELPOSTI TOIMINNALLISUUKSIA LISÄTESSÄ
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=living_room_img)
+			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
 		if OfficeActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=office_img)
+			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
 		if KitchenActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=kitchen_img)
+			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
 		if StorageRoomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=storage_room_img)
+			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
 		if BathroomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bathroom_img)
+			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
 		if FrontdoorActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=frontdoor_img)
 			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
 			if SomeoneAtDoor!="":
 				GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=visitor_img)
 
-	root.after(40,DrawScreen)
+	root.after(60,DrawScreen)
 
 
 #--------------------Key bindaukset --------------------------
@@ -322,50 +356,45 @@ def keypress(event):
 		BedroomActive=True
 		RoomActive=True
 		AllowMovement=False
-		#if event.keysym.lower()=="escape":
-		#	print("Mlem")
-		#	PLAYER_X=2.5
-		#	PLAYER_Y=2.5
-		#	PLAYER_A=0
-		#	AllowMovement=True
-		#	BedroomActive=False
-		#	RoomActive=False
 
 	if PLAYER_X>=3 and PLAYER_X<=4 and PLAYER_Y>=3 and PLAYER_Y<=4: #         < < < < < LIVING ROOM
 		print("Player in: Living Room")
-		KitchenActive=True
+		LivingRoomActive=True
+		RoomActive=True
 		AllowMovement=False
-		if event.keysym.lower()=="escape":
-			print("Mlem")
-			PLAYER_X=2.8
-			PLAYER_Y=3.5
-			PLAYER_A=math.pi/2*3
-			AllowMovement=True
-			KitchenActive=False
+		#if event.keysym.lower()=="escape":
+		#	print("Mlem")
+		#	PLAYER_X=2.8
+		#	PLAYER_Y=3.5
+		#	PLAYER_A=math.pi/2*3
+		#	AllowMovement=True
+		#	KitchenActive=False
 
 	if PLAYER_X>=1 and PLAYER_X<=2 and PLAYER_Y>=3 and PLAYER_Y<=4: #         < < < < < OFFICE
 		print("Player in: Office")
 		OfficeActive=True
+		RoomActive=True
 		AllowMovement=False
-		if event.keysym.lower()=="escape":
-			print("Mlem")
-			PLAYER_X=2.2
-			PLAYER_Y=3.5
-			PLAYER_A=math.pi/2
-			AllowMovement=True
-			OfficeActive=False
+		#if event.keysym.lower()=="escape":
+		#	print("Mlem")
+		#	PLAYER_X=2.2
+		#	PLAYER_Y=3.5
+		#	PLAYER_A=math.pi/2
+		#	AllowMovement=True
+		#	OfficeActive=False
 
 	if PLAYER_X>=1 and PLAYER_X<=2 and PLAYER_Y>=5 and PLAYER_Y<=6: #         < < < < < KITCHEN
 		print("Player in: Kitchen")
 		KitchenActive=True
+		RoomActive=True
 		AllowMovement=False
-		if event.keysym.lower()=="escape":
-			print("Mlem")
-			PLAYER_X=2.2
-			PLAYER_Y=5.5
-			PLAYER_A=math.pi/2
-			AllowMovement=True
-			KitchenActive=False
+		#if event.keysym.lower()=="escape":
+		#	print("Mlem")
+		#	PLAYER_X=2.2
+		#	PLAYER_Y=5.5
+		#	PLAYER_A=math.pi/2
+		#	AllowMovement=True
+		#	KitchenActive=False
 
 
 	if PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=8 and PLAYER_Y<=9: #         < < < < < STORAGE
@@ -397,14 +426,6 @@ def keypress(event):
 		FrontdoorActive=True
 		RoomActive=True
 		AllowMovement=False
-		#if event.keysym.lower()=="escape":
-                #        print("Mlem")
-                #        PLAYER_X=5.8
-                #        PLAYER_Y=7.5
-                #        PLAYER_A=math.pi/2*3
-                #        AllowMovement=True
-                #        FrontdoorActive=False
-
 
 	#------------------UKKO LIIKKUU---------------------------
 	if event.keysym.lower()=="w" or event.keysym.lower()=="up":
