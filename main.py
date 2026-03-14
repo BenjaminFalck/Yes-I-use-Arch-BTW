@@ -107,15 +107,14 @@ def LeaveCurrentState():
 		PLAYER_X=2.5
 		PLAYER_Y=2.5
 		PLAYER_A=0
-		print(AllowMovement)
 		AllowMovement=True
-		print(AllowMovement)
 	elif FrontdoorActive:
 		FrontdoorActive=False
 		PLAYER_X=5.8
 		PLAYER_Y=7.5
 		PLAYER_A=math.pi/2*3
 		AllowMovement=True
+		RoomActive=False
 
 #-------------------------------------------Tkinter Setup-------------------------------------------------
 #Luodaan root ikkuna
