@@ -34,8 +34,9 @@ FrontdoorActive=False
 
 
 #pelilogiikan muuttujat
-DayNum=2
+DayNum=1
 NightTime=False
+SomeoneAtDoor=""
 
 
 #--------------------Level mappi--------------------
@@ -130,10 +131,7 @@ storage_room_img=tk.PhotoImage(file="Images/Rooms/Storage_Room.png")
 bathroom_img=tk.PhotoImage(file="Images/Rooms/Bathroom.png")
 frontdoor_img=tk.PhotoImage(file="Images/Rooms/Frontdoor.png")
 
-if DayNum==2:
-	news_img=tk.PhotoImage(file="Images/Tv/NewsDay2.png")
-#if DayNum==3:
-#        news_img=tk.PhotoImage(file="Images/Tv/NewsDay3.png")
+news_img=tk.PhotoImage(file="Images/Tv/NewsDay1.png")
 
 #-----------------AUDIO---------------------------
 #Kontiovaara_sound1=sa.WaveObject.from_wave_file("KontiovaaraKautattekoHuumeita.wav") #KOKEILE MYÖHEMMIN. LINUX TO WINDOWS DEV AUDIO MENEE LIIAN MONIMUTKAISEKSI NOPEAAN PROJEKTIIN.
@@ -146,17 +144,29 @@ def WatchTv():
 	SleepButton.place_forget()
 	LeaveButton.place_forget()
 
+def LoadVisitors():
+	global SomeoneAtDoor,visitor_img
+	if SomeoneAtDoor!="":
+		visitor_img=tk.PhotoImage(file=f"Images/Visitors/{SomeoneAtDoor}1.png")
+	print(SomeoneAtDoor)
 def BedTime():
-	global NightTime,DayNum,news_img
-	print(f"Onko vanha aika yö? {NightTime}")
-	NightTime=not NightTime
-	print(f"Onko uusi aika yö? {NightTime}")
-	print(f"Now is day {DayNum}")
-	if NightTime==True:DayNum+=1
-	print(f"Now is day {DayNum}")
+	global NightTime,DayNum,news_img,SomeoneAtDoor
+	if SomeoneAtDoor!="":
+		print("Et voi koodata vielä, joku on ovella!")
+	else:
+		print(f"Onko vanha aika yö? {NightTime}")
+		NightTime=not NightTime
+		print(f"Onko uusi aika yö? {NightTime}")
+		print(f"Now is day {DayNum}")
+		if NightTime==True:DayNum+=1
+		print(f"Now is day {DayNum}")
+		if DayNum==2:
+			news_img=tk.PhotoImage(file="Images/Tv/NewsDay2.png")
+			SomeoneAtDoor="Linus"
+			LoadVisitors()
+		if DayNum==3:news_img=tk.PhotoImage(file="Images/Tv/NewsDay3.png")
 
-	if DayNum==3:
-		news_img=tk.PhotoImage(file="Images/Tv/NewsDay3.png")
+
 
 #-----------------------------------------------------BUTTONS----------------------------------------------------------------
 #ESC MENU
@@ -261,6 +271,8 @@ def DrawScreen():
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bathroom_img)
 		if FrontdoorActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=frontdoor_img)
+			if SomeoneAtDoor!="":
+				GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=visitor_img)
 
 	root.after(30,DrawScreen)
 
@@ -407,5 +419,5 @@ root.bind("<KeyPress>",keypress)
 #print(SCREEN_W)
 CreateTablesSQL()
 DrawScreen()
-#PlayKontiovaara()
+print(SomeoneAtDoor)
 root.mainloop()

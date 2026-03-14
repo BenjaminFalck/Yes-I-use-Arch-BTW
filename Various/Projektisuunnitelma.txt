@@ -1,0 +1,84 @@
+Projekti-suunnitelma: 
+	-Toteutan pelin, joka hyödyntää:
+		1. Tkinter-kirjastoa: 
+			grafiikoiden piirtämiseen (create_rectangle() seiniin, mietin jopa että ehkä create_image()
+			voisi jotenkin käyttää niin saa tekstuureja. Ongelma tosin on että seinien piirto perustuu sädekästäykseen, ja 
+			niin sanottu "seinän yksikön piirtoleveys" perustuu säteen leveyden määrittämään muuttujaan. Toisin sanoen, jos 
+			suoraan korvaan create_square()-funktion create_image():lla, lopputulos tuskin näyttää hyvältä, koska kuvista
+			tulisi todella pieniä, ja kenties pilalle venytettyjä... Olen myös aloittelija raycasting hommissa, joten vaikka
+			olen innoissani projektista, tämä voi olla haastavaa. Varsinkin kun tkinter on vähän pöhkö valinta tähän tehtävään,
+			ja pygame olisi loogisempi valinta. Kurssilla kuitenkin treenataan tkinteriä, joten yritän pysyä siinä. Olen tehnyt
+			muutamia prototyyppejä, ja tkinter pitäisi toimia ainakin hyvin alkeellisiin 3D-grafiikoihin, mutta en ole ollenkaan
+			varma voinko saada seiniin tekstuureja, mikä harmittaa vähän. Uskon että se on mahdollista jotenkin, sillä tkinter on
+			yllättävän monipuolinen ja tehokas kirjasto, mutta en ainakaan tässä vaiheessa tiedä miten tehdä noiden seinien
+			tekstuurien kanssa.
+		2. Python math kirjastoa:
+			Sädekästäyksiin liittyvien mittojen selvitykseen perus geometristen funktioiden avulla. Sitä tullaan tarvitsemaan myös
+			pelimekaanikoiden laskutoimituksiin mahdollisesti.
+		3. SQLite-kirjastoa: 
+			Pelin tallennuksen tekemiseen, ja mahdollisesti karttadatan lataukseen. Ja ehkä vierailijoiden datakin tulisi SQl-kannasta.
+			Ei siksi että se olisi hyvä idea tai muutenkaan kannattavaa, mutta ihan vaan huvin vuoksi ja harrastuksen kannalta.
+
+	- Pelin idea:
+		Pelin yleinen idea on eräänlainen kopio "No, I'm not a human" -nimisestä kauhupelistä, jossa pelaaja pyörittää turvataloa,
+		jonka ovelle tulee joka yö koputtelemaan porukkaa, ja pelaajan tehtävä on tunnistaa onko kyseessä ihminen vai örkki valeasussa,
+		joka yrittää päästä sisälle turvataloon. Mikäli pelaaja vahingossa päästää örkin sisälle, tulee örkki tappamaan ihmisen yöllä
+		kunnes se ammutaan tai ihmiset loppuu kesken. Valitsin nimenomaan tämän pelin siksi, että sen 3D-toiminnallisuus on suhteellisen
+		yksinkertainen: siinä on vain yksi huone jossa kävellään ja kaiken muun voi tehdä tkinterin create_image() funktiolla.
+		Tästä ideasta johtaen, suunnitelmani on tehdä samantyyppinen peli, jossa pelaaja tällä kertaa järjestää Hackathon-tapahtumaa.
+		Kun ovelle tullaan koputtamaan, pelaajan tulee tunnistaa, onko ovella mahtava UNIX koodari, vaiko likainen Windows käyttäjä joka
+		yrittää livahtaa sisään. Pelaajan tulee kysyä tulijoilta kysymyksiä, jonka pohjalta päätellään minkälainen kaveri ovella on.
+		Jos pelaaja vahingossa on päästänyt Windows-käyttäjän sisään, alkaa Hackathonin projekti-reposta hajoilemaan osia joka yö, kunnes
+		koko projekti on pilalla. En ole aivan varma miten menetellä Mac-käyttäjien kohdalla, kuuluvathan nämäkin samaan UNIX-leiriin myös,
+		enkä ole ikinä kohdannut mäkki-koodareita jotka ei ollut kovia jannuja. Kenties sun on pakko olla aika kova koodari jos kompailaat 
+		koodia XCode:lla. Ei nimittäin naurata yhtään XCoden kanssa tappelu.
+		
+		 
+
+	- Mitä haluan peliin:
+		1. Mappidata rework
+			Tähän mennessä kirjoittamani prototyypit on toiminut lähinnä yksinkertaisella niin sanotulla "seinä vai tyhjää" kartalla,
+			josta esimerkki tässä: 
+						###############
+						#             #
+						########  ##  #
+						#          #  #
+						#  #########  #
+						#             #
+						###############
+
+			Haluaisin kuitenkin peliini tekstuureja, tai vähintaan edes eri värejä. Siksi haluan kokeilla tehdä tämän perinteisellä
+			"tile based" lähestymistavalla, jossa jokainen mappidatan sektio identifioidaan numerolla, joka toimii sektio-tyypin ID:nä.
+			Siitä esimerkki tässä:
+						111111111111111
+						200000000000001
+						122222220022001
+						100000000002001
+						100222222222001
+						100000000000001
+						111111131111111
+
+			Tässä esimerkissä:
+				0 = tyhjää tilaa
+				1 = ID ulkoseinä sektioille. Niiden väri voi olla esimerkiksi vihreä.
+				2 = ID sisäseinä sektioille. Niiden väri voi olla jokin muu, esim sininen.
+				3 = ID sektioille jotka toimivat ovina. Niiden väri olisi ruskea. Kun pelaaja
+				    niiden lähellä painaa esimerkiksi ENTER-näppäintä, voisi ohjelma siirtää pelaajan
+				    toisiin koordinaatteihin, ladata kokonaan eri kartan, tai tehdä jotain muuta. Vaikka
+				    aktivoida "Tallenna peli" toiminnallisuuden.
+			
+			Olen aikaisemmin ohjelmoinut pelejä näin, mutta vain C++ kielellä käyttäen joko olcCommandlineGameEngineä tai SDL2. 
+			En ikinä ole yrittänyt tätä pythonilla, vaikkakaan en usko, että tämä on iso ongelma. Olen enemmän huolissani siitä,
+			miten piirrän png tiedostoja tekstuureiksi ohjelmaan. Pitää jotenkin keksiä miten kertoa ohjelmalle kuinka ladata 
+			esim Door.png oikeaan kohtaan ID 2 sektioiden kohdalle.
+ 
+		2. Useita mahdollisia vierailijoita, joiden väliltä valitaan satunnaisesti kuka tulee. Peli valitsee myös satunnaisesti kuka on
+		   Unix- ja kuka Windows-koodari. Muuten on liian helppoa, jos sama kaveri on aina Windows-jannu.
+
+	- Ongelmia joita odotan: 
+		1. En osaa pirtää. Tai, tykkään piirtää lentokoneita, panssariajoneuvoja sun muita. Mutta en ihmisiä. Pyydän ehkä tyttöystävääni
+		   piirtämään tekstuurit vierailijoille.
+		2. Olen aloittelija sekä raycasting koodailussa, että tkinterissä, että myös Pythonissa. Tai olen koodannut pythonilla aiemmin,
+		   en vaan tykkää siitä, koska sen toiminta perustuu raskaasti valmiiksi-koodattuihin toiminnallisuuksiin sun muihin, ja se mitä
+		   ohjelma oikeasti tekee on välillä mysteeri. Yritän lukea dokumentaatioa, mutta verrattuna esimerkiksi C:hen, kieli on vähän
+		   epäintuitiivinen ja vaikea lukea. Multi-platform toiminnallisuus on tosin iso plus. 
