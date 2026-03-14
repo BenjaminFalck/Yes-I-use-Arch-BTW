@@ -131,7 +131,10 @@ bathroom_img=tk.PhotoImage(file="Images/Rooms/Bathroom.png")
 frontdoor_img=tk.PhotoImage(file="Images/Rooms/Frontdoor.png")
 
 if DayNum==2:
-	news_day2_img=tk.PhotoImage(file="Images/Tv/NewsDay2.png")
+	news_img=tk.PhotoImage(file="Images/Tv/NewsDay2.png")
+#if DayNum==3:
+#        news_img=tk.PhotoImage(file="Images/Tv/NewsDay3.png")
+
 #-----------------AUDIO---------------------------
 #Kontiovaara_sound1=sa.WaveObject.from_wave_file("KontiovaaraKautattekoHuumeita.wav") #KOKEILE MYÖHEMMIN. LINUX TO WINDOWS DEV AUDIO MENEE LIIAN MONIMUTKAISEKSI NOPEAAN PROJEKTIIN.
 #Kontiovaara_play=None                                                      #IMPORT OS SYSTEM CHECK + IMPORT WINSOUND EHKÄ TOIMII WINDOWSILLE MITÄ KOULU TODENNÄK KÄYTTÄÄ
@@ -144,13 +147,16 @@ def WatchTv():
 	LeaveButton.place_forget()
 
 def BedTime():
-	global NightTime,DayNum
+	global NightTime,DayNum,news_img
 	print(f"Onko vanha aika yö? {NightTime}")
 	NightTime=not NightTime
 	print(f"Onko uusi aika yö? {NightTime}")
 	print(f"Now is day {DayNum}")
 	if NightTime==True:DayNum+=1
 	print(f"Now is day {DayNum}")
+
+	if DayNum==3:
+		news_img=tk.PhotoImage(file="Images/Tv/NewsDay3.png")
 
 #-----------------------------------------------------BUTTONS----------------------------------------------------------------
 #ESC MENU
@@ -240,7 +246,7 @@ def DrawScreen():
 			LeaveButton.place_forget()
 
 		if TvActive:
-			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_day2_img)
+			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_img)
 			WatchTvButton.place_forget()
 			SleepButton.place_forget()
 		if LivingRoomActive: #                                                                      <<<ÄLÄ LAITA ELIF SE RIKKOUTUU HELPOSTI TOIMINNALLISUUKSIA LISÄTESSÄ
