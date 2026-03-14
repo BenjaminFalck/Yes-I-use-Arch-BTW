@@ -135,6 +135,23 @@ def LeaveCurrentState():
                 RoomActive=False
                 LeaveButton.place_forget()
 
+	elif StorageRoomActive:
+                StorageRoomActive=False
+                PLAYER_X=2.5
+                PLAYER_Y=7.99
+                PLAYER_A=math.pi
+                AllowMovement=True
+                RoomActive=False
+                LeaveButton.place_forget()
+	elif BathroomActive:
+                BathroomActive=False
+                PLAYER_X=4.5
+                PLAYER_Y=7.5
+                PLAYER_A=0
+                AllowMovement=True
+                RoomActive=False
+                LeaveButton.place_forget()
+
 	elif FrontdoorActive:
 		FrontdoorActive=False
 		PLAYER_X=5.8
@@ -362,64 +379,44 @@ def keypress(event):
 		LivingRoomActive=True
 		RoomActive=True
 		AllowMovement=False
-		#if event.keysym.lower()=="escape":
-		#	print("Mlem")
-		#	PLAYER_X=2.8
-		#	PLAYER_Y=3.5
-		#	PLAYER_A=math.pi/2*3
-		#	AllowMovement=True
-		#	KitchenActive=False
 
 	if PLAYER_X>=1 and PLAYER_X<=2 and PLAYER_Y>=3 and PLAYER_Y<=4: #         < < < < < OFFICE
 		print("Player in: Office")
 		OfficeActive=True
 		RoomActive=True
 		AllowMovement=False
-		#if event.keysym.lower()=="escape":
-		#	print("Mlem")
-		#	PLAYER_X=2.2
-		#	PLAYER_Y=3.5
-		#	PLAYER_A=math.pi/2
-		#	AllowMovement=True
-		#	OfficeActive=False
 
 	if PLAYER_X>=1 and PLAYER_X<=2 and PLAYER_Y>=5 and PLAYER_Y<=6: #         < < < < < KITCHEN
 		print("Player in: Kitchen")
 		KitchenActive=True
 		RoomActive=True
 		AllowMovement=False
-		#if event.keysym.lower()=="escape":
-		#	print("Mlem")
-		#	PLAYER_X=2.2
-		#	PLAYER_Y=5.5
-		#	PLAYER_A=math.pi/2
-		#	AllowMovement=True
-		#	KitchenActive=False
-
 
 	if PLAYER_X>=2 and PLAYER_X<=3 and PLAYER_Y>=8 and PLAYER_Y<=9: #         < < < < < STORAGE
 		#print("Player in: Storage Room")
 		StorageRoomActive=True
+		RoomActive=True
 		AllowMovement=False
-		if event.keysym.lower()=="escape":
-			print("MLEM")
-			PLAYER_X=2.5
-			PLAYER_Y=7.99
-			PLAYER_A=math.pi
-			AllowMovement=True
-			StorageRoomActive=False
+		#if event.keysym.lower()=="escape":
+		#	print("MLEM")
+		#	PLAYER_X=2.5
+		#	PLAYER_Y=7.99
+		#	PLAYER_A=math.pi
+		#	AllowMovement=True
+		#	StorageRoomActive=False
 
 	if PLAYER_X>=4 and PLAYER_X<=5 and PLAYER_Y>=6 and PLAYER_Y<=7.3: #         < < < < < BATHROOM
 		print("Player in: Bathroom")
 		BathroomActive=True
+		RoomActive=True
 		AllowMovement=False
-		if event.keysym.lower()=="escape":
-			print("Mlem")
-			PLAYER_X=4.5
-			PLAYER_Y=7.5
-			PLAYER_A=0
-			AllowMovement=True
-			BathroomActive=False
+		#if event.keysym.lower()=="escape":
+		#	print("Mlem")
+		#	PLAYER_X=4.5
+		#	PLAYER_Y=7.5
+		#	PLAYER_A=0
+		#	AllowMovement=True
+		#	BathroomActive=False
 
 	if PLAYER_X>=6 and PLAYER_X<=7 and PLAYER_Y>=7 and PLAYER_Y<=8: #         < < < < < FRONTDOOR
 		print("Player in: Looking through frontdoor")
