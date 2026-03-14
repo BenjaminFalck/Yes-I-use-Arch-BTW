@@ -24,6 +24,7 @@ TvActive=False
 EscMenuActive=False
 
 RoomActive=False
+RoomDrawn=False
 BedroomActive=False
 LivingRoomActive=False
 OfficeActive=False
@@ -217,21 +218,23 @@ def CastRays():
 	return WALL_HEIGHTS_LISTED
 #--------------------Renderöys-------------------------
 def DrawScreen():
-	GameScreen.delete("all")
-	WALL_HEIGHTS_LISTED=CastRays()
-	for WALL_H_INDEX, WALL_H in enumerate(WALL_HEIGHTS_LISTED): #numeroittaa list itemin indexin muuttujaan WALL_H_INDEX
-		X=WALL_H_INDEX*RAY_WIDTH
-		WALL_TOP=(SCREEN_H-WALL_H)//2
-		WALL_BOTTOM=(SCREEN_H-WALL_TOP)
+	global RoomDrawn
+	if not RoomActive:
+		GameScreen.delete("all")
+		WALL_HEIGHTS_LISTED=CastRays()
+		for WALL_H_INDEX, WALL_H in enumerate(WALL_HEIGHTS_LISTED): #numeroittaa list itemin indexin muuttujaan WALL_H_INDEX
+			X=WALL_H_INDEX*RAY_WIDTH
+			WALL_TOP=(SCREEN_H-WALL_H)//2
+			WALL_BOTTOM=(SCREEN_H-WALL_TOP)
 
-		if WALL_H>SCREEN_H*0.75:COLOUR_WALL="#40113b"
-		elif WALL_H>SCREEN_H*0.4:COLOUR_WALL="#320c2d"
-		elif WALL_H>SCREEN_H*0.25:COLOUR_WALL="#23081e"
-		else:COLOUR_WALL="#190514"
+			if WALL_H>SCREEN_H*0.75:COLOUR_WALL="#40113b"
+			elif WALL_H>SCREEN_H*0.4:COLOUR_WALL="#320c2d"
+			elif WALL_H>SCREEN_H*0.25:COLOUR_WALL="#23081e"
+			else:COLOUR_WALL="#190514"
 
-		GameScreen.create_rectangle(X,WALL_TOP,X+RAY_WIDTH,WALL_BOTTOM,fill=COLOUR_WALL,outline=COLOUR_WALL) #Seinän väritys
-		GameScreen.create_rectangle(X,WALL_TOP-((SCREEN_H//2)-(WALL_H//2)),X+RAY_WIDTH,WALL_TOP,fill="#140410",outline="#140410") #Katon väritys
-		GameScreen.create_rectangle(X,WALL_BOTTOM,X+RAY_WIDTH,WALL_BOTTOM+((SCREEN_H//2)-(WALL_H//2)),fill="#1c0d03",outline="#1c0d03") #Lattian väritys #47270e
+			GameScreen.create_rectangle(X,WALL_TOP,X+RAY_WIDTH,WALL_BOTTOM,fill=COLOUR_WALL,outline=COLOUR_WALL) #Seinän väritys
+			GameScreen.create_rectangle(X,WALL_TOP-((SCREEN_H//2)-(WALL_H//2)),X+RAY_WIDTH,WALL_TOP,fill="#140410",outline="#140410") #Katon väritys
+			GameScreen.create_rectangle(X,WALL_BOTTOM,X+RAY_WIDTH,WALL_BOTTOM+((SCREEN_H//2)-(WALL_H//2)),fill="#1c0d03",outline="#1c0d03") #Lattian väritys #47270e
 
 
 		if MlemToggle:
@@ -250,21 +253,25 @@ def DrawScreen():
 			HowToPlayButton.place_forget()
 			ExitButton.place_forget()
 
-
+	else:
 		if BedroomActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=bedroom_img)
-			WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+150)
-			SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+220)
-			LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
+			if not RoomDrawn:
+				WatchTvButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+150)
+				SleepButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+220)
+				LeaveButton.place(x=SCREEN_W/2-600,y=SCREEN_H/2+290)
+				RoomDrawn=True
 		else:
 			WatchTvButton.place_forget()
 			SleepButton.place_forget()
 			LeaveButton.place_forget()
+			RoomDrawn=False
 
 		if TvActive:
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=news_img)
 			WatchTvButton.place_forget()
 			SleepButton.place_forget()
+
 		if LivingRoomActive: #                                                                      <<<ÄLÄ LAITA ELIF SE RIKKOUTUU HELPOSTI TOIMINNALLISUUKSIA LISÄTESSÄ
 			GameScreen.create_image(SCREEN_W/2,SCREEN_H/2,image=living_room_img)
 		if OfficeActive:
