@@ -13,7 +13,7 @@ PLAYER_A=0
 FOV=math.pi/3
 RAY_WIDTH=2
 
-GRAPHIC_ADJUST=0.01
+GRAPHIC_ADJUST=0.03
 
 MlemToggle=False
 AllowMovement=True
