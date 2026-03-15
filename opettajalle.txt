@@ -1,0 +1,45 @@
+Hei! 
+Olen viimeaikoina innostunut raycastereiden koodailusta, joten päätin koodata yksinkertaisen raycasterin tätä projektia varten.
+Tkinter ei todellakaan ole optimaalinen ratkaisu tähän, mutta ratkaisu johon päädyin perustuu tkinterin Canvas widgettiin, jonka
+avulla voimme piirtää nelijöitä määritettyihin koordinaatteihin. Yksinkertaisesti, näyttö jaetaan (FOV) alueella sädeleveyden 
+määrittämän levyisiin kolumneihin, joihin puolestaan piirretään 3 eriväristä neliötä näyttämään katto, seinä ja lattia. Lisäksi, seinien sävy
+märiittyy myös säteen etäisyyden mukaan ennen kuin se osuu seinään. Luonnollisesti, Benjamin's mighty software:n legendaarisiin väreihin.
+Tiedän että esim pygame olisi ollut parempi kirjasto tähän, mutta halusin käyttää 
+Tkinteriä haasteena, sillä nimenomaan sitä käytettiin kurssilla.
+Huomasin vahingossa myös, että säteen maksimikantamaa säädettäessä pelin grafiikka
+nousee/laskee, mikä vaikuttaa performanssiin. Päätin bindata ne O ja P nappeihin, siltä varalta että ohjelma ei pyöri koneellasi hyvin muuten. 
+Ohjelma piirtää näytön uudelleen ja uudelleen muistaakseni 40ms välein, joka helposti puree suorituskykyyn.
+Pelin nimi on Linux-meemi joka viittaa tässä alkuperäiseen peliin, joka projektia inspiroi: No, I'm not a human
+
+SQLite-toiminnallisuus on melko rajallinen, mutta pitäisi riittää tehtävänannon minimivaatimuksiin. Sillä ladataan ja tallennetaan peliin eri
+muuttujien arvoja. Tosin, tällä hetkellä vain pelaajan x ja y koordinaatit sekä kulma johon pelaaja katsoo.
+
+Pelin idea on tämä:
+Pelaaja järjestää Hackathon tapahtumaa, jonne joka yö ovelle tulee koputtelemaan uusia tulokkaita. Pelaajan päästettyä heidät taloon, tulee pelaajan
+päätellä kysymysten perusteella kuka on mahtava Unix-koodari, ja kuka likainen Windows-koodari. (Kyllä, näen ironian, koodini meni vähän spagetiksi
+loppua kohti kun laiskuus iski.) Kun tulokkaat on päästetty taloon, ne menevät johonkin huoneeseen, josta heidät myöhemmin löytää. En ehtinyt lisätä kuin
+tutoriaali-ukon, jonka olisi ollut tarkoitus lähteä 2. päivän päivällä, jonka jälkeen muita olisi alkanut tulemaan. 
+Pelaaja voi oppia uusia Windows-koodarin tuntomerkkejä katselemalla telkkaria tai puhumalla tulokkaille.
+(Esim: "Mikä on suosikki package-managerisi?"-> "7zip on ihan hyvä!" -> Huijari paljastuu ja potkitaan ulos)
+
+[Kuinka pelata]
+Liikkuminen = WASD- ja nuoli-näppäimet
+Grafiikansäätö = o- ja p-näppäimet
+Pausevalikko = ESC-näppäin
+Bonus = m-näppäin
+
+[PLAYTHROUGH]
+-Mene ovelle
+-Päästä vieras sisään
+-Mene makuuhuoneeseen koodaamaan
+-Mene (nyt on seuraava päivä) keittiöön
+-Puhu vieraalle
+-Demo loppuu tähän
+
+[Kuinka ajaa peli]
+Saatat tarvita Python3-version. Yksinkertaisesti aja main.py komentoriviltä.
+
+[Jos peli ei toimi koneellasi]
+Laita minulle viestiä, niin yritän korjata sen. Peli on kehitetty ja testattu ainoastaan Ubuntulla.
+
+
